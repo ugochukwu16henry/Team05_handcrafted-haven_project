@@ -2,11 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <nav className="bg-accent-header text-text-background sticky top-0 z-50 shadow-md">
@@ -18,7 +16,7 @@ export default function Navigation() {
               Handcrafted Haven
             </Link>
           </div>
-
+          
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
             <Link href="/" className="interactive hover:text-border-accent">
@@ -27,17 +25,17 @@ export default function Navigation() {
             <Link href="/products" className="interactive hover:text-border-accent">
               Products
             </Link>
-            <button
-              onClick={() => router.push('/sellers')}
-              className="interactive hover:text-border-accent bg-transparent border-0 cursor-pointer text-text-background"
-            >
+            <Link href="/sellers" className="interactive hover:text-border-accent">
               Sellers
-            </button>
+            </Link>
+            <Link href="/dashboard" className="interactive hover:text-border-accent">
+              Dashboard
+            </Link>
             <Link href="/login" className="interactive hover:text-border-accent">
               Login
             </Link>
           </div>
-
+          
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -68,7 +66,7 @@ export default function Navigation() {
             </svg>
           </button>
         </div>
-
+        
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden pb-4">
@@ -87,15 +85,20 @@ export default function Navigation() {
               >
                 Products
               </Link>
-              <button
-                onClick={() => {
-                  router.push('/sellers');
-                  setIsMenuOpen(false);
-                }}
-                className="interactive hover:text-border-accent bg-transparent border-0 cursor-pointer text-left"
+              <Link
+                href="/sellers"
+                className="interactive hover:text-border-accent"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Sellers
-              </button>
+              </Link>
+              <Link
+                href="/dashboard"
+                className="interactive hover:text-border-accent"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
               <Link
                 href="/login"
                 className="interactive hover:text-border-accent"
