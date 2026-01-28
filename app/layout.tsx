@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navigation from "../components/Navigation";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -15,8 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <Navigation />
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
