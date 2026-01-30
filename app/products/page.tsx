@@ -1,82 +1,110 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import ProductCard from '@/components/ProductCard';
 
-// Sample product data
-const sampleProducts = [
-  {
-    id: '1',
-    title: 'Handcrafted Ceramic Vase',
-    description: 'Beautiful hand-thrown ceramic vase with unique glaze pattern. Perfect for fresh or dried flowers.',
-    price: 89.99,
-    artistName: 'Sarah Johnson',
-    category: 'Ceramics',
-  },
-  {
-    id: '2',
-    title: 'Wooden Cutting Board',
-    description: 'Premium walnut and maple cutting board with juice groove. Food-safe finish.',
-    price: 65.00,
-    artistName: 'Michael Chen',
-    category: 'Woodwork',
-  },
-  {
-    id: '3',
-    title: 'Hand-Knitted Wool Scarf',
-    description: 'Soft merino wool scarf in beautiful earth tones. Warm and stylish for winter.',
-    price: 45.50,
-    artistName: 'Emma Williams',
-    category: 'Textiles',
-  },
-  {
-    id: '4',
-    title: 'Abstract Canvas Painting',
-    description: 'Original acrylic painting on canvas. Modern abstract design in vibrant colors.',
-    price: 250.00,
-    artistName: 'David Martinez',
-    category: 'Art',
-  },
-  {
-    id: '5',
-    title: 'Leather Journal',
-    description: 'Hand-stitched leather journal with recycled paper. Perfect for writing or sketching.',
-    price: 55.00,
-    artistName: 'Lisa Anderson',
-    category: 'Leather Goods',
-  },
-  {
-    id: '6',
-    title: 'Silver Wire Earrings',
-    description: 'Delicate sterling silver earrings with gemstone accents. Handcrafted with care.',
-    price: 38.00,
-    artistName: 'Rachel Kim',
-    category: 'Jewelry',
-  },
-];
+interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  sellerId: string;
+  artistName: string;
+  category?: string;
+  imageUrl?: string;
+}
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sellerFilter, setSellerFilter] = useState('');
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const url = sellerFilter 
+        ? `/api/products?sellerId=${sellerFilter}`
+        : '/api/products';
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [sellerFilter]);
+
   return (
     <main className="min-h-screen bg-bg-secondary py-12">
       <div className="container-fluid">
         <div className="mb-8">
           <h1 className="mb-4">Browse Our Collection</h1>
-          <p className="text-lg text-text-secondary">
+          <p className="text-lg text-text-secondary mb-6">
             Discover unique, handcrafted items from talented artisans around the world.
           </p>
+          
+          {/* Seller Filter */}
+          <div className="mb-6">
+            <label htmlFor="sellerFilter" className="block text-sm font-semibold mb-2 text-accent-header">
+              Filter by Seller ID (Optional)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                id="sellerFilter"
+                value={sellerFilter}
+                onChange={(e) => setSellerFilter(e.target.value)}
+                placeholder="Enter seller ID..."
+                className="flex-1 max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+              />
+              {sellerFilter && (
+                <button
+                  onClick={() => setSellerFilter('')}
+                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
         </div>
         
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sampleProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              description={product.description}
-              price={product.price}
-              artistName={product.artistName}
-              category={product.category}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-text-secondary">Loading products...</p>
+          </div>
+        ) : products.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <ProductCard
+                key={product._id}
+                id={product._id}
+                title={product.title}
+                description={product.description}
+                price={product.price}
+                artistName={product.artistName}
+                category={product.category}
+                imageUrl={product.imageUrl}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-text-secondary">
+              {sellerFilter ? 'No products found for this seller.' : 'No products available yet.'}
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

@@ -1,6 +1,57 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import ProductCard from '@/components/ProductCard';
+
+interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  sellerId: string;
+  artistName: string;
+  category?: string;
+  imageUrl?: string;
+}
 
 export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sellerSearch, setSellerSearch] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (sellerSearch) {
+      // Filter products by seller name (artistName)
+      const filtered = products.filter(product =>
+        product.artistName.toLowerCase().includes(sellerSearch.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [sellerSearch, products]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('/api/products');
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+        setFilteredProducts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main>
       {/* Hero Section */}
@@ -28,6 +79,79 @@ export default function Home() {
               Sign In
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Products Section */}
+      <section className="py-16 md:py-24 bg-bg-secondary">
+        <div className="container-fluid">
+          <div className="mb-8">
+            <h2 className="mb-4">Featured Products</h2>
+            <p className="text-text-secondary mb-6">
+              Discover unique, handcrafted items from talented artisans around the world.
+            </p>
+            
+            {/* Seller Search */}
+            <div className="mb-6">
+              <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
+                Search by Seller Name
+              </label>
+              <input
+                type="text"
+                id="sellerSearch"
+                value={sellerSearch}
+                onChange={(e) => setSellerSearch(e.target.value)}
+                placeholder="Enter seller name..."
+                className="w-full max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+              />
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-text-secondary">Loading products...</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProducts.slice(0, 6).map((product) => (
+                <ProductCard
+                  key={product._id}
+                  id={product._id}
+                  title={product.title}
+                  description={product.description}
+                  price={product.price}
+                  artistName={product.artistName}
+                  category={product.category}
+                  imageUrl={product.imageUrl}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-text-secondary mb-4">
+                {sellerSearch ? 'No products found for this seller.' : 'No products available yet.'}
+              </p>
+              {sellerSearch && (
+                <button
+                  onClick={() => setSellerSearch('')}
+                  className="text-accent-header font-semibold interactive hover:underline"
+                >
+                  Clear search
+                </button>
+              )}
+            </div>
+          )}
+
+          {filteredProducts.length > 0 && (
+            <div className="text-center mt-8">
+              <Link
+                href="/products"
+                className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md inline-block"
+              >
+                View All Products
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -80,7 +204,7 @@ export default function Home() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
-              href="/sellers"
+              href="/sellers/become"
               className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
             >
               Become a Seller
