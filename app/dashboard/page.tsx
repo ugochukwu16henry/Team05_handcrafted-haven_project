@@ -1,8 +1,8 @@
 export default function DashboardPage() {
   return (
-    <div className="flex h-screen bg-bg-secondary">
+    <div className="flex flex-col md:flex-row h-screen bg-bg-secondary">
       {/* Sidebar */}
-      <aside className="w-60 bg-primary border-r border-border-color">
+      <aside className="w-full md:w-60 bg-primary border-r border-border-color flex-shrink-0">
         <div className="p-6">
           <div className="flex items-center gap-2 mb-8">
             <div className="w-8 h-8 bg-accent-header rounded-full"></div>

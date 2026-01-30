@@ -1,7 +1,7 @@
 export default function LoginPage() {
   return (
     <main className="min-h-screen bg-bg-secondary flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md mx-auto">
         <div className="card">
           {/* Header */}
           <div className="text-center mb-8">

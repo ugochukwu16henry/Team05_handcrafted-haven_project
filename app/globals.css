@@ -70,6 +70,25 @@ h6 {
   padding: 0 var(--space-lg);
 }
 
+/* Form Container - Responsive max-width */
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-container {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form-container {
+    max-width: 700px;
+  }
+}
+
 /* Interactive States */
 .interactive {
   transition: all 0.2s ease-in-out;
@@ -109,5 +128,42 @@ h6 {
 
   .container-fluid {
     padding: 0 var(--space-md);
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+}
+
+/* Form Input Responsive */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Dashboard Responsive */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    position: fixed;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .dashboard-sidebar.open {
+    left: 0;
   }
 }
