@@ -454,3 +454,92 @@ button, a, input, select, textarea {
     border: 2px solid currentColor;
   }
 }
+
+/* Logo sizing and professional appearance - Modern Responsive Standards */
+img[alt*="Logo"],
+img[alt*="logo"] {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: auto;
+}
+
+/* Header Logo - Horizontal Layout (250-400px width, 20-30px height) */
+.header-logo {
+  height: 30px; /* Modern tight height within 64px navbar */
+  width: auto;
+  max-width: 250px;
+}
+
+@media (min-width: 640px) {
+  .header-logo {
+    height: 32px;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-logo {
+    height: 36px;
+    max-width: 350px;
+  }
+}
+
+/* Footer Logo - Smaller horizontal variant */
+.footer-logo {
+  height: 24px;
+  width: auto;
+  max-width: 150px;
+}
+
+@media (min-width: 640px) {
+  .footer-logo {
+    height: 28px;
+    max-width: 200px;
+  }
+}
+
+/* Dashboard Sidebar Logo - Square/Vertical Layout (160x160px equivalent) */
+.dashboard-logo {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-logo {
+    height: 48px;
+    max-width: 140px;
+  }
+}
+
+/* Utility logo sizes */
+.logo-favicon {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-square {
+  width: 160px;
+  height: 160px;
+}
+
+/* Ensure logos don't distort */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-container img {
+  object-fit: contain;
+  object-position: center;
+}

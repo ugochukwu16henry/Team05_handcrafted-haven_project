@@ -11,8 +11,8 @@ export default function Header() {
       <div className="container-fluid">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 interactive">
-            <div className="w-10 h-10 bg-accent-header rounded-lg flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-3 interactive group">
+            <div className="w-10 h-10 bg-gradient-to-br from-accent-header to-border-accent rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-200">
               <span className="text-text-background text-xl font-bold">H</span>
             </div>
             <div>
