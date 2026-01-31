@@ -1,9 +1,11 @@
+import { ObjectId } from 'mongodb';
+
 export interface Product {
-  _id?: string;
+  _id?: ObjectId;         // MongoDB _id as an ObjectId
   title: string;
   description: string;
   price: number;
-  sellerId: string; // Seller ID to link products to sellers
+  sellerId: ObjectId;     // Reference to Seller as ObjectId
   artistName: string;
   category?: string;
   imageUrl?: string;
