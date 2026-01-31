@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '../lib/mongodb';
 import { Seller } from '../types/user';
+import { ObjectId } from 'mongodb'
 
 // GET all sellers
 export async function GET(request: NextRequest) {
@@ -56,6 +57,56 @@ export async function POST(request: NextRequest) {
     console.error('Error creating seller:', error);
     return NextResponse.json(
       { error: 'Failed to create seller' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const db = await getDatabase();
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: 'Valid seller id is required' },
+        { status: 400 }
+      );
+    }
+
+    const body: Partial<Seller> = await request.json();
+
+    // Prevent updating restricted fields
+    delete body._id;
+    delete body.createdAt;
+
+    if (Object.keys(body).length === 0) {
+      return NextResponse.json(
+        { error: 'No fields provided to update' },
+        { status: 400 }
+      );
+    }
+
+    const result = await db.collection<Seller>('sellers').findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: body },
+      { returnDocument: 'after' }
+    );
+
+    if (!result.value) {
+      return NextResponse.json(
+        { error: 'Seller not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(result.value, { status: 200 });
+  } catch (error) {
+    console.error('Error updating seller:', error);
+    return NextResponse.json(
+      { error: 'Failed to update seller' },
       { status: 500 }
     );
   }
