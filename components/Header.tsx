@@ -22,25 +22,33 @@ export default function Header() {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-text-primary font-medium interactive hover:text-accent-header transition">
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link href="/" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
               Home
             </Link>
-            <Link href="/products" className="text-text-primary font-medium interactive hover:text-accent-header transition">
+            <Link href="/products" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
               Products
             </Link>
-            <Link href="/sellers" className="text-text-primary font-medium interactive hover:text-accent-header transition">
+            <Link href="/sellers" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
               Sellers
             </Link>
-            <Link href="/dashboard" className="text-text-primary font-medium interactive hover:text-accent-header transition">
+            <Link href="/dashboard" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
               Dashboard
             </Link>
-            <Link 
-              href="/login" 
-              className="bg-accent-header text-text-background px-6 py-2 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-sm"
-            >
-              Login
-            </Link>
+            <div className="flex items-center gap-3 ml-2">
+              <Link 
+                href="/signup" 
+                className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200"
+              >
+                Sign Up
+              </Link>
+              <Link 
+                href="/login" 
+                className="bg-accent-header text-text-background px-6 py-2.5 rounded-lg font-semibold interactive hover:opacity-90 hover:shadow-lg transition-all duration-200 shadow-md"
+              >
+                Login
+              </Link>
+            </div>
           </nav>
           
           {/* Mobile Menu Button */}
@@ -92,8 +100,15 @@ export default function Header() {
                 Dashboard
               </Link>
               <Link 
+                href="/signup" 
+                className="px-4 py-3 rounded-lg text-text-primary font-medium interactive hover:bg-bg-secondary hover:text-accent-header transition-colors duration-200" 
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+              <Link 
                 href="/login" 
-                className="mx-4 bg-accent-header text-text-background px-6 py-3 rounded-lg font-semibold text-center interactive hover:opacity-90 transition" 
+                className="mx-4 bg-accent-header text-text-background px-6 py-3 rounded-lg font-semibold text-center interactive hover:opacity-90 hover:shadow-lg transition-all duration-200" 
                 onClick={() => setIsMenuOpen(false)}
               >
                 Login

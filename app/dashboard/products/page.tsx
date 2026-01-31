@@ -106,205 +106,240 @@ export default function DashboardProductsPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-bg-secondary">
-      {/* Sidebar */}
-      <aside className="w-full md:w-60 bg-primary border-r border-border-color flex-shrink-0">
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-accent-header rounded-full"></div>
-            <span className="text-xl font-bold">Handcrafted Haven</span>
+    <div className="min-h-screen bg-bg-secondary">
+      <div className="flex flex-col md:flex-row h-screen">
+        {/* Modern Sidebar */}
+        <aside className="w-full md:w-64 flex-shrink-0 border-r border-border-color/20 backdrop-blur-xl bg-white/80 dark:bg-[#1f1f1f]/80">
+          <div className="p-6 h-full flex flex-col">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 bg-gradient-to-br from-accent-header to-border-accent rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-text-background text-xl font-bold">H</span>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-accent-header">Haven</div>
+                <div className="text-xs text-text-secondary">Dashboard</div>
+              </div>
+            </div>
+            
+            <nav className="space-y-1 flex-1">
+              <a href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-secondary/50 dark:hover:bg-[#2a2a2a] interactive transition-all duration-200 group">
+                <span className="text-lg group-hover:scale-110 transition-transform duration-200">🏠</span>
+                <span>Overview</span>
+              </a>
+              <a href="/dashboard/products" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent-header/10 text-accent-header font-medium backdrop-blur-sm transition-all duration-200 hover:bg-accent-header/20 group">
+                <span className="text-lg group-hover:scale-110 transition-transform duration-200">📦</span>
+                <span>Products</span>
+              </a>
+              <a href="/dashboard/sellers" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-secondary/50 dark:hover:bg-[#2a2a2a] interactive transition-all duration-200 group">
+                <span className="text-lg group-hover:scale-110 transition-transform duration-200">👥</span>
+                <span>Sellers</span>
+              </a>
+            </nav>
+            
+            <div className="pt-4 border-t border-border-color/20">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400">
+                <span>🚪</span>
+                <span>Sign Out</span>
+              </button>
+            </div>
           </div>
-          
-          <nav className="space-y-2">
-            <a href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-secondary interactive">
-              <span>🏠</span> Home
-            </a>
-            <a href="/dashboard/products" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-bg-secondary text-accent-header font-medium">
-              <span>📦</span> Products
-            </a>
-            <a href="/dashboard/sellers" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-secondary interactive">
-              <span>👥</span> Sellers
-            </a>
-          </nav>
-        </div>
-        
-        <div className="absolute bottom-0 w-60 p-6 border-t border-border-color">
-          <button className="flex items-center gap-3 interactive">
-            <span>🚪</span> Sign Out
-          </button>
-        </div>
-      </aside>
+        </aside>
       
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto p-8">
-        <h1 className="mb-8">Add Product</h1>
-
-        {sellerId && (
-          <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-700">
-              <strong>Seller ID:</strong> {sellerId} (auto-filled)
-            </p>
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto p-6 md:p-8">
+          <div className="mb-8 page-header">
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-accent-header to-border-accent bg-clip-text text-transparent">
+              Products Management
+            </h1>
+            <p className="text-text-secondary">Create and manage your product listings</p>
           </div>
-        )}
 
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-lg text-red-700">
-            {error}
-          </div>
-        )}
+          {sellerId && (
+            <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl backdrop-blur-sm">
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                <strong>Seller ID:</strong> {sellerId} (auto-filled)
+              </p>
+            </div>
+          )}
 
-        {success && (
-          <div className="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-lg text-green-700">
-            Product created successfully!
-          </div>
-        )}
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl backdrop-blur-sm text-red-700 dark:text-red-300">
+              {error}
+            </div>
+          )}
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* Add Product Form */}
-          <div className="card">
-            <h2 className="mb-6">Create New Product</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="title" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Product Title <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  placeholder="Handcrafted Ceramic Vase"
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-                  required
-                />
-              </div>
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl backdrop-blur-sm text-green-700 dark:text-green-300 animate-in slide-in-from-top">
+              ✅ Product created successfully!
+            </div>
+          )}
 
-              <div>
-                <label htmlFor="description" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Describe your product..."
-                  rows={4}
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary resize-none"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            {/* Add Product Form */}
+            <div className="backdrop-blur-xl bg-white/70 dark:bg-[#1f1f1f]/70 border border-border-color/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <h2 className="text-2xl font-semibold text-accent-header mb-6">Create New Product</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="price" className="block text-sm font-semibold mb-2 text-accent-header">
-                    Price ($) <span className="text-red-500">*</span>
+                  <label htmlFor="title" className="block text-sm font-semibold mb-2 text-accent-header">
+                    Product Title <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={formData.title}
                     onChange={handleChange}
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0"
-                    className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                    placeholder="Handcrafted Ceramic Vase"
+                    className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="category" className="block text-sm font-semibold mb-2 text-accent-header">
-                    Category
+                  <label htmlFor="description" className="block text-sm font-semibold mb-2 text-accent-header">
+                    Description <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    id="category"
-                    name="category"
-                    value={formData.category}
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-                  >
-                    <option value="">Select category</option>
-                    <option value="Ceramics">Ceramics</option>
-                    <option value="Woodwork">Woodwork</option>
-                    <option value="Textiles">Textiles</option>
-                    <option value="Art">Art</option>
-                    <option value="Leather Goods">Leather Goods</option>
-                    <option value="Jewelry">Jewelry</option>
-                    <option value="Other">Other</option>
-                  </select>
+                    placeholder="Describe your product..."
+                    rows={4}
+                    className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700 resize-none"
+                    required
+                  />
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor="artistName" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Artist/Seller Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="artistName"
-                  name="artistName"
-                  value={formData.artistName}
-                  onChange={handleChange}
-                  placeholder="Your name"
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="imageUrl" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Image URL (Optional)
-                </label>
-                <input
-                  type="url"
-                  id="imageUrl"
-                  name="imageUrl"
-                  value={formData.imageUrl}
-                  onChange={handleChange}
-                  placeholder="https://example.com/image.jpg"
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting || !sellerId}
-                className="w-full bg-accent-header text-text-background py-3 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Creating...' : 'Create Product'}
-              </button>
-            </form>
-          </div>
-
-          {/* Your Products List */}
-          <div className="card">
-            <h2 className="mb-6">Your Products ({products.length})</h2>
-            {products.length > 0 ? (
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                {products.map((product) => (
-                  <div key={product._id} className="p-4 bg-bg-secondary rounded-lg border border-border-color">
-                    <h3 className="font-semibold text-accent-header mb-2">{product.title}</h3>
-                    <p className="text-sm text-text-secondary mb-2 line-clamp-2">{product.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-accent-header">${product.price.toFixed(2)}</span>
-                      {product.category && (
-                        <span className="text-xs bg-border-accent text-text-background px-2 py-1 rounded">
-                          {product.category}
-                        </span>
-                      )}
-                    </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="price" className="block text-sm font-semibold mb-2 text-accent-header">
+                      Price ($) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      id="price"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      placeholder="0.00"
+                      step="0.01"
+                      min="0"
+                      className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                      required
+                    />
                   </div>
-                ))}
+
+                  <div>
+                    <label htmlFor="category" className="block text-sm font-semibold mb-2 text-accent-header">
+                      Category
+                    </label>
+                    <select
+                      id="category"
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                    >
+                      <option value="">Select category</option>
+                      <option value="Ceramics">Ceramics</option>
+                      <option value="Woodwork">Woodwork</option>
+                      <option value="Textiles">Textiles</option>
+                      <option value="Art">Art</option>
+                      <option value="Leather Goods">Leather Goods</option>
+                      <option value="Jewelry">Jewelry</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="artistName" className="block text-sm font-semibold mb-2 text-accent-header">
+                    Artist/Seller Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="artistName"
+                    name="artistName"
+                    value={formData.artistName}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="imageUrl" className="block text-sm font-semibold mb-2 text-accent-header">
+                    Image URL (Optional)
+                  </label>
+                  <input
+                    type="url"
+                    id="imageUrl"
+                    name="imageUrl"
+                    value={formData.imageUrl}
+                    onChange={handleChange}
+                    placeholder="https://example.com/image.jpg"
+                    className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !sellerId}
+                  className="w-full bg-gradient-to-r from-accent-header to-border-accent-dark text-text-background py-3.5 rounded-xl font-semibold interactive hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {isSubmitting ? 'Creating...' : 'Create Product'}
+                </button>
+              </form>
+            </div>
+
+            {/* Your Products List */}
+            <div className="backdrop-blur-xl bg-white/70 dark:bg-[#1f1f1f]/70 border border-border-color/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold text-accent-header">Your Products</h2>
+                <span className="px-3 py-1 bg-accent-header/10 text-accent-header rounded-full text-sm font-semibold">
+                  {products.length}
+                </span>
               </div>
-            ) : (
-              <p className="text-text-secondary">No products yet. Create your first product!</p>
-            )}
+              {products.length > 0 ? (
+                <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  {products.map((product) => (
+                    <div 
+                      key={product._id} 
+                      className="p-4 bg-bg-secondary/50 dark:bg-[#2a2a2a]/50 rounded-xl border border-border-color/20 hover:bg-bg-secondary dark:hover:bg-[#2a2a2a] transition-all duration-200 group cursor-pointer"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="font-semibold text-accent-header group-hover:text-border-accent transition-colors">{product.title}</h3>
+                        {product.category && (
+                          <span className="text-xs bg-gradient-to-r from-border-accent to-border-accent-dark text-text-background px-2 py-1 rounded-lg font-medium">
+                            {product.category}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-text-secondary mb-3 line-clamp-2">{product.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xl font-bold bg-gradient-to-r from-accent-header to-border-accent bg-clip-text text-transparent">
+                          ${product.price.toFixed(2)}
+                        </span>
+                        <button className="text-xs text-accent-header hover:text-border-accent font-semibold interactive">
+                          Edit →
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">📦</div>
+                  <p className="text-text-secondary mb-2">No products yet</p>
+                  <p className="text-sm text-text-secondary">Create your first product to get started!</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

@@ -36,9 +36,9 @@ export default function SellersPage() {
   };
 
   return (
-    <main className="min-h-screen bg-bg-secondary">
-      <div className="container-fluid py-8 md:py-12">
-        <div className="mb-8">
+    <main className="min-h-screen bg-bg-secondary py-12">
+      <div className="container-fluid">
+        <div className="mb-8 page-header">
           <h1 className="mb-4">Our Artisans</h1>
           <p className="text-lg text-text-secondary mb-6">
             Meet the talented creators behind our handcrafted treasures.
@@ -58,8 +58,8 @@ export default function SellersPage() {
         ) : sellers.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sellers.map((seller) => (
-              <div key={seller._id} className="card interactive cursor-pointer hover:shadow-lg">
-                <div className="w-full h-48 bg-border-accent rounded-lg mb-4 flex items-center justify-center text-6xl">
+              <div key={seller._id} className="card interactive cursor-pointer hover:shadow-lg flex flex-col">
+                <div className="w-full h-48 bg-border-accent rounded-lg mb-4 flex items-center justify-center text-6xl flex-shrink-0">
                   👨‍🎨
                 </div>
                 <h2 className="mb-2">{seller.businessName || seller.name}</h2>
@@ -67,7 +67,7 @@ export default function SellersPage() {
                   <strong>Artisan:</strong> {seller.name}
                 </p>
                 {seller.description && (
-                  <p className="text-text-secondary text-sm mb-4 line-clamp-3">
+                  <p className="text-text-secondary text-sm mb-4 line-clamp-3 flex-1">
                     {seller.description}
                   </p>
                 )}
@@ -78,7 +78,7 @@ export default function SellersPage() {
                 )}
                 <Link
                   href={`/products?sellerId=${seller._id}`}
-                  className="text-accent-header font-semibold interactive hover:underline inline-block"
+                  className="text-accent-header font-semibold interactive hover:underline inline-block mt-auto"
                 >
                   View Products →
                 </Link>

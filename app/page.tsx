@@ -85,14 +85,14 @@ export default function Home() {
       {/* Products Section */}
       <section className="py-16 md:py-24 bg-bg-secondary">
         <div className="container-fluid">
-          <div className="mb-8">
-            <h2 className="mb-4">Featured Products</h2>
-            <p className="text-text-secondary mb-6">
+          <div className="mb-8 page-header">
+            <h2 className="mb-4 text-center md:text-left">Featured Products</h2>
+            <p className="text-text-secondary mb-6 text-center md:text-left">
               Discover unique, handcrafted items from talented artisans around the world.
             </p>
             
             {/* Seller Search */}
-            <div className="mb-6">
+            <div className="mb-6 max-w-md mx-auto md:mx-0">
               <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
                 Search by Seller Name
               </label>
@@ -102,7 +102,7 @@ export default function Home() {
                 value={sellerSearch}
                 onChange={(e) => setSellerSearch(e.target.value)}
                 placeholder="Enter seller name..."
-                className="w-full max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
               />
             </div>
           </div>

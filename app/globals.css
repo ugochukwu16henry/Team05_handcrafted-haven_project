@@ -68,6 +68,111 @@ h6 {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--space-lg);
+  width: 100%;
+}
+
+/* Ensure consistent page alignment */
+main {
+  width: 100%;
+  min-height: calc(100vh - 160px); /* Account for header/footer */
+}
+
+/* Consistent section spacing */
+section {
+  width: 100%;
+}
+
+/* Consistent page header alignment */
+.page-header {
+  margin-bottom: var(--space-xl);
+}
+
+.page-header h1,
+.page-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+/* Consistent grid alignment */
+.grid {
+  display: grid;
+  width: 100%;
+  align-items: start;
+}
+
+/* Ensure consistent vertical alignment */
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: start;
+}
+
+/* Ensure cards align properly in grids */
+.card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Consistent button alignment */
+button,
+a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Consistent input alignment */
+input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+}
+
+/* Ensure consistent grid gaps */
+.grid {
+  gap: var(--space-lg);
+}
+
+@media (max-width: 767px) {
+  .grid {
+    gap: var(--space-md);
+  }
+}
+
+/* Ensure all grid items align properly */
+.grid > * {
+  min-width: 0; /* Prevent overflow */
+}
+
+/* Consistent text alignment */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* Consistent spacing for page sections */
+section + section {
+  margin-top: 0;
+}
+
+/* Ensure consistent padding for main content */
+main {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+@media (max-width: 767px) {
+  main {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
 }
 
 /* Form Container - Responsive max-width */
@@ -112,6 +217,20 @@ h6 {
   margin-bottom: var(--space-lg);
 }
 
+.card.shadow-lg {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card.shadow-xl {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure cards in grids have equal heights */
+.grid > .card {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 767px) {
   body {
@@ -132,6 +251,17 @@ h6 {
 
   .card {
     padding: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-lg);
+    text-align: center;
+  }
+
+  .page-header h1,
+  .page-header h2 {
+    text-align: center;
   }
 }
 
@@ -146,6 +276,41 @@ textarea,
 select {
   width: 100%;
   max-width: 100%;
+}
+
+/* Ensure forms are above the fold on mobile */
+@media (max-width: 767px) {
+  main.min-h-screen {
+    min-height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  /* Ensure submit button stays visible above keyboard */
+  form button[type="submit"] {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 1rem;
+  }
+  
+  /* Mobile form spacing */
+  .card {
+    margin: 0;
+  }
+  
+  /* Ensure forms don't stretch on mobile */
+  form {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Desktop: Right-align form option (for future use) */
+@media (min-width: 1024px) {
+  .form-right-align {
+    margin-left: auto;
+    margin-right: 0;
+  }
 }
 
 /* Dashboard Responsive */
@@ -165,5 +330,127 @@ select {
 
   .dashboard-sidebar.open {
     left: 0;
+  }
+}
+
+/* Glassmorphism Effects */
+@supports (backdrop-filter: blur(10px)) {
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* Microinteractions */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  top: 50%;
+  left: 50%;
+  animation: ripple 0.6s;
+  opacity: 0;
+}
+
+.ripple-effect:active::after {
+  animation: ripple 0.6s;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, select, textarea {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--accent-header);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #1f1f1f;
+    --text-primary: #f2f4f3;
+    --text-secondary: #9ca3af;
+  }
+}
+
+/* Skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Bento grid layout utilities */
+.bento-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Progressive disclosure animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--accent-header);
+  }
+  
+  button {
+    border: 2px solid currentColor;
   }
 }

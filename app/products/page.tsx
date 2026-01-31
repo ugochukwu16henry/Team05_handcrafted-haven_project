@@ -47,14 +47,14 @@ export default function ProductsPage() {
   return (
     <main className="min-h-screen bg-bg-secondary py-12">
       <div className="container-fluid">
-        <div className="mb-8">
+        <div className="mb-8 page-header">
           <h1 className="mb-4">Browse Our Collection</h1>
           <p className="text-lg text-text-secondary mb-6">
             Discover unique, handcrafted items from talented artisans around the world.
           </p>
           
           {/* Seller Filter */}
-          <div className="mb-6">
+          <div className="mb-6 max-w-2xl mx-auto">
             <label htmlFor="sellerFilter" className="block text-sm font-semibold mb-2 text-accent-header">
               Filter by Seller ID (Optional)
             </label>
@@ -65,12 +65,12 @@ export default function ProductsPage() {
                 value={sellerFilter}
                 onChange={(e) => setSellerFilter(e.target.value)}
                 placeholder="Enter seller ID..."
-                className="flex-1 max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                className="flex-1 px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
               />
               {sellerFilter && (
                 <button
                   onClick={() => setSellerFilter('')}
-                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition"
+                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition whitespace-nowrap"
                 >
                   Clear
                 </button>
