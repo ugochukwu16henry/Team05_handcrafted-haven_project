@@ -92,7 +92,7 @@ export default function Home() {
             </p>
             
             {/* Seller Search */}
-            <div className="mb-6 max-w-md mx-auto">
+            <div className="mb-6 max-w-md mx-auto md:mx-0">
               <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
                 Search by Seller Name
               </label>
@@ -134,7 +134,8 @@ export default function Home() {
               {sellerSearch && (
                 <button
                   onClick={() => setSellerSearch('')}
-                  className="text-accent-header font-semibold interactive hover:underline"
+                  className="text-accent-header font-semibold interactive hover:underline py-2 px-2 min-h-[44px] inline-flex items-center"
+                  aria-label="Clear seller search"
                 >
                   Clear search
                 </button>

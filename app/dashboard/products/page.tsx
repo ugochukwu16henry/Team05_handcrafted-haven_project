@@ -137,7 +137,7 @@ export default function DashboardProductsPage() {
             </nav>
             
             <div className="pt-4 border-t border-border-color/20">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
@@ -168,42 +168,11 @@ export default function DashboardProductsPage() {
             </div>
           )}
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* Add Product Form */}
-          <div className="card shadow-lg">
-            <h2 className="mb-6">Create New Product</h2>
-            <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
-              <div>
-                <label htmlFor="title" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Product Title <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  placeholder="Handcrafted Ceramic Vase"
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="description" className="block text-sm font-semibold mb-2 text-accent-header">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Describe your product..."
-                  rows={4}
-                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary resize-none"
-                  required
-                />
-              </div>
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl backdrop-blur-sm text-green-700 dark:text-green-300 animate-in slide-in-from-top">
+              ✅ Product created successfully!
+            </div>
+          )}
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             {/* Add Product Form */}
@@ -353,7 +322,7 @@ export default function DashboardProductsPage() {
                         <span className="text-xl font-bold bg-gradient-to-r from-accent-header to-border-accent bg-clip-text text-transparent">
                           ${product.price.toFixed(2)}
                         </span>
-                        <button className="text-xs text-accent-header hover:text-border-accent font-semibold interactive">
+                        <button className="text-xs text-accent-header hover:text-border-accent font-semibold interactive py-2 px-2 min-h-[44px] inline-flex items-center">
                           Edit →
                         </button>
                       </div>

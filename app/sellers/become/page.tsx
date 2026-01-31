@@ -88,7 +88,7 @@ export default function BecomeSellerPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold mb-2 text-accent-header">
                   Full Name <span className="text-red-500">*</span>

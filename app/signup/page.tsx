@@ -146,7 +146,7 @@ export default function SignupPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive min-w-[44px] min-h-[44px] flex items-center justify-center"
                         aria-label={showPassword ? 'Hide password' : 'Show password'}
                       >
                         {showPassword ? (
@@ -183,7 +183,7 @@ export default function SignupPage() {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive min-w-[44px] min-h-[44px] flex items-center justify-center"
                         aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                       >
                         {showConfirmPassword ? (

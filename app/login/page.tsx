@@ -19,7 +19,8 @@ export default function LoginPage() {
           </div>
           
           {/* Form */}
-          <form className="space-y-6 max-w-full">
+          <form className="space-y-5 max-w-full">
+            {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold mb-2 text-accent-header">
                 Email Address
@@ -54,7 +55,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent-header interactive min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (

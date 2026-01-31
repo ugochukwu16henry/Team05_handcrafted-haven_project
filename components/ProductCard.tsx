@@ -60,7 +60,7 @@ export default function ProductCard({
               </p>
             </div>
             
-            <button className="bg-border-accent text-text-background px-4 py-2 rounded-lg font-semibold text-sm interactive hover:opacity-90 transition">
+            <button className="bg-border-accent text-text-background px-4 py-2.5 rounded-lg font-semibold text-sm interactive hover:opacity-90 transition min-h-[44px] flex items-center">
               View Details
             </button>
           </div>
