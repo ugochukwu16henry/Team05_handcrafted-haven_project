@@ -168,11 +168,42 @@ export default function DashboardProductsPage() {
             </div>
           )}
 
-          {success && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl backdrop-blur-sm text-green-700 dark:text-green-300 animate-in slide-in-from-top">
-              ✅ Product created successfully!
-            </div>
-          )}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          {/* Add Product Form */}
+          <div className="card shadow-lg">
+            <h2 className="mb-6">Create New Product</h2>
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
+              <div>
+                <label htmlFor="title" className="block text-sm font-semibold mb-2 text-accent-header">
+                  Product Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="Handcrafted Ceramic Vase"
+                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="description" className="block text-sm font-semibold mb-2 text-accent-header">
+                  Description <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Describe your product..."
+                  rows={4}
+                  className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary resize-none"
+                  required
+                />
+              </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             {/* Add Product Form */}

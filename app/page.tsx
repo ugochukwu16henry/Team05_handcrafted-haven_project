@@ -92,7 +92,7 @@ export default function Home() {
             </p>
             
             {/* Seller Search */}
-            <div className="mb-6 max-w-md mx-auto md:mx-0">
+            <div className="mb-6 max-w-md mx-auto">
               <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
                 Search by Seller Name
               </label>

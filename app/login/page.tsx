@@ -19,8 +19,7 @@ export default function LoginPage() {
           </div>
           
           {/* Form */}
-          <form className="space-y-5 max-w-full">
-            {/* Email Field */}
+          <form className="space-y-6 max-w-full">
             <div>
               <label htmlFor="email" className="block text-sm font-semibold mb-2 text-accent-header">
                 Email Address
