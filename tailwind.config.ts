@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -14,6 +15,10 @@ const config: Config = {
         'accent-header': '#22333B',
         'border-accent': '#A9927D',
         'border-accent-dark': '#5E503F',
+      },
+      animation: {
+        'shimmer': 'shimmer 2s infinite',
+        'slide-in': 'slideIn 0.3s ease-out',
       },
     },
   },

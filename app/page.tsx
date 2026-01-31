@@ -85,9 +85,9 @@ export default function Home() {
       {/* Products Section */}
       <section className="py-16 md:py-24 bg-bg-secondary">
         <div className="container-fluid">
-          <div className="mb-8">
-            <h2 className="mb-4">Featured Products</h2>
-            <p className="text-text-secondary mb-6">
+          <div className="mb-8 page-header">
+            <h2 className="mb-4 text-center md:text-left">Featured Products</h2>
+            <p className="text-text-secondary mb-6 text-center md:text-left">
               Discover unique, handcrafted items from talented artisans around the world.
             </p>
             

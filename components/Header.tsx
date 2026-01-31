@@ -104,6 +104,13 @@ export default function Header() {
                 Dashboard
               </Link>
               <Link 
+                href="/signup" 
+                className="px-4 py-3 rounded-lg text-text-primary font-medium interactive hover:bg-bg-secondary hover:text-accent-header transition-colors duration-200" 
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+              <Link 
                 href="/login" 
                 className="mx-4 mt-2 bg-accent-header text-text-background px-6 py-3 rounded-lg font-semibold text-center interactive hover:opacity-90 hover:shadow-lg transition-all duration-200 shadow-md" 
                 onClick={() => setIsMenuOpen(false)}

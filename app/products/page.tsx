@@ -47,7 +47,7 @@ export default function ProductsPage() {
   return (
     <main className="min-h-screen bg-bg-secondary py-12">
       <div className="container-fluid">
-        <div className="mb-8">
+        <div className="mb-8 page-header">
           <h1 className="mb-4">Browse Our Collection</h1>
           <p className="text-lg text-text-secondary mb-6">
             Discover unique, handcrafted items from talented artisans around the world.
