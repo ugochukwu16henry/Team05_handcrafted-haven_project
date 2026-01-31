@@ -15,17 +15,17 @@ export default function Footer() {
             </div>
           </div>
           
-          <div className="flex flex-wrap gap-8 md:gap-10 text-sm">
-            <Link href="/products" className="opacity-80 hover:opacity-100 interactive transition-opacity">
+          <div className="flex flex-wrap gap-6 md:gap-8 text-sm">
+            <Link href="/products" className="opacity-80 hover:opacity-100 interactive transition-opacity py-2 px-2 min-h-[44px] flex items-center">
               Products
             </Link>
-            <Link href="/sellers" className="opacity-80 hover:opacity-100 interactive transition-opacity">
+            <Link href="/sellers" className="opacity-80 hover:opacity-100 interactive transition-opacity py-2 px-2 min-h-[44px] flex items-center">
               Sellers
             </Link>
-            <Link href="/sellers/become" className="opacity-80 hover:opacity-100 interactive transition-opacity">
+            <Link href="/sellers/become" className="opacity-80 hover:opacity-100 interactive transition-opacity py-2 px-2 min-h-[44px] flex items-center">
               Become a Seller
             </Link>
-            <Link href="/dashboard" className="opacity-80 hover:opacity-100 interactive transition-opacity">
+            <Link href="/dashboard" className="opacity-80 hover:opacity-100 interactive transition-opacity py-2 px-2 min-h-[44px] flex items-center">
               Dashboard
             </Link>
           </div>

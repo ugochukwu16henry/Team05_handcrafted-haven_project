@@ -22,29 +22,29 @@ export default function Header() {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
+          <nav className="hidden md:flex items-center space-x-4">
+            <Link href="/" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
               Home
             </Link>
-            <Link href="/products" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
+            <Link href="/products" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
               Products
             </Link>
-            <Link href="/sellers" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
+            <Link href="/sellers" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
               Sellers
             </Link>
-            <Link href="/dashboard" className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200">
+            <Link href="/dashboard" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
               Dashboard
             </Link>
             <div className="flex items-center gap-3 ml-2">
               <Link 
                 href="/signup" 
-                className="text-text-primary font-medium px-3 py-2 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200"
+                className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center"
               >
                 Sign Up
               </Link>
               <Link 
                 href="/login" 
-                className="bg-accent-header text-text-background px-6 py-2.5 rounded-lg font-semibold interactive hover:opacity-90 hover:shadow-lg transition-all duration-200 shadow-md"
+                className="bg-accent-header text-text-background px-6 py-3 rounded-lg font-semibold interactive hover:opacity-90 hover:shadow-lg transition-all duration-200 shadow-md min-h-[44px] flex items-center"
               >
                 Login
               </Link>
@@ -54,8 +54,9 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden interactive p-2 rounded-lg hover:bg-bg-secondary transition"
+            className="md:hidden interactive p-3 rounded-lg hover:bg-bg-secondary transition min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             <svg className="w-6 h-6 text-accent-header" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMenuOpen ? (

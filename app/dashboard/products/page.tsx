@@ -137,7 +137,7 @@ export default function DashboardProductsPage() {
             </nav>
             
             <div className="pt-4 border-t border-border-color/20">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
@@ -322,7 +322,7 @@ export default function DashboardProductsPage() {
                         <span className="text-xl font-bold bg-gradient-to-r from-accent-header to-border-accent bg-clip-text text-transparent">
                           ${product.price.toFixed(2)}
                         </span>
-                        <button className="text-xs text-accent-header hover:text-border-accent font-semibold interactive">
+                        <button className="text-xs text-accent-header hover:text-border-accent font-semibold interactive py-2 px-2 min-h-[44px] inline-flex items-center">
                           Edit →
                         </button>
                       </div>

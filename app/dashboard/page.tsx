@@ -106,13 +106,13 @@ export default function DashboardPage() {
             <div className="space-y-2 pt-4 border-t border-border-color/20">
               <button
                 onClick={toggleDarkMode}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-secondary/50 dark:hover:bg-[#2a2a2a] interactive transition-all duration-200"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-secondary/50 dark:hover:bg-[#2a2a2a] interactive transition-all duration-200 min-h-[44px]"
                 aria-label="Toggle dark mode"
               >
                 <span className="text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
                 <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
               </button>
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>

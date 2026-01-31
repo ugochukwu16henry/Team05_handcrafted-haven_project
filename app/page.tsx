@@ -134,7 +134,8 @@ export default function Home() {
               {sellerSearch && (
                 <button
                   onClick={() => setSellerSearch('')}
-                  className="text-accent-header font-semibold interactive hover:underline"
+                  className="text-accent-header font-semibold interactive hover:underline py-2 px-2 min-h-[44px] inline-flex items-center"
+                  aria-label="Clear seller search"
                 >
                   Clear search
                 </button>

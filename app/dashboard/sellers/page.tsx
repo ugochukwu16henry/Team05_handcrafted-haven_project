@@ -76,7 +76,7 @@ export default function DashboardSellersPage() {
             </nav>
             
             <div className="pt-4 border-t border-border-color/20">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400">
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
@@ -112,7 +112,7 @@ export default function DashboardSellersPage() {
               <div className="flex gap-3">
                 <Link
                   href="/sellers/become"
-                  className="px-6 py-3 bg-gradient-to-r from-accent-header to-border-accent-dark text-text-background rounded-xl font-semibold interactive hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md"
+                  className="px-6 py-3 bg-gradient-to-r from-accent-header to-border-accent-dark text-text-background rounded-xl font-semibold interactive hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md min-h-[44px] flex items-center"
                 >
                   + Add New Seller
                 </Link>
@@ -180,7 +180,7 @@ export default function DashboardSellersPage() {
                     >
                       View Products
                     </Link>
-                    <button className="px-4 py-2 bg-border-accent/10 text-border-accent-dark rounded-lg font-semibold text-sm interactive hover:bg-border-accent/20 transition-all duration-200">
+                    <button className="px-4 py-2.5 bg-border-accent/10 text-border-accent-dark rounded-lg font-semibold text-sm interactive hover:bg-border-accent/20 transition-all duration-200 min-h-[44px] flex items-center">
                       Edit
                     </button>
                   </div>

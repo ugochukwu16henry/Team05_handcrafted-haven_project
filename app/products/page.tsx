@@ -70,7 +70,8 @@ export default function ProductsPage() {
               {sellerFilter && (
                 <button
                   onClick={() => setSellerFilter('')}
-                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition whitespace-nowrap"
+                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition whitespace-nowrap min-h-[44px] flex items-center"
+                  aria-label="Clear seller filter"
                 >
                   Clear
                 </button>
