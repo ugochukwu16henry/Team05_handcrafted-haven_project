@@ -92,7 +92,7 @@ export default function Home() {
             </p>
             
             {/* Seller Search */}
-            <div className="mb-6">
+            <div className="mb-6 max-w-md mx-auto">
               <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
                 Search by Seller Name
               </label>
@@ -102,7 +102,7 @@ export default function Home() {
                 value={sellerSearch}
                 onChange={(e) => setSellerSearch(e.target.value)}
                 placeholder="Enter seller name..."
-                className="w-full max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
               />
             </div>
           </div>

@@ -54,7 +54,7 @@ export default function ProductsPage() {
           </p>
           
           {/* Seller Filter */}
-          <div className="mb-6">
+          <div className="mb-6 max-w-2xl mx-auto">
             <label htmlFor="sellerFilter" className="block text-sm font-semibold mb-2 text-accent-header">
               Filter by Seller ID (Optional)
             </label>
@@ -65,12 +65,12 @@ export default function ProductsPage() {
                 value={sellerFilter}
                 onChange={(e) => setSellerFilter(e.target.value)}
                 placeholder="Enter seller ID..."
-                className="flex-1 max-w-md px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
+                className="flex-1 px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
               />
               {sellerFilter && (
                 <button
                   onClick={() => setSellerFilter('')}
-                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition"
+                  className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition whitespace-nowrap"
                 >
                   Clear
                 </button>

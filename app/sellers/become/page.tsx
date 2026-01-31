@@ -74,8 +74,8 @@ export default function BecomeSellerPage() {
     <main className="min-h-screen bg-bg-secondary py-12">
       <div className="container-fluid">
         <div className="max-w-2xl mx-auto">
-          <div className="card">
-            <div className="mb-8">
+          <div className="card shadow-xl">
+            <div className="mb-8 text-center">
               <h1 className="mb-2">Become a Seller</h1>
               <p className="text-text-secondary">
                 Join our community of talented artisans and start selling your handcrafted creations.
@@ -88,7 +88,7 @@ export default function BecomeSellerPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold mb-2 text-accent-header">
                   Full Name <span className="text-red-500">*</span>

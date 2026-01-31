@@ -161,9 +161,9 @@ export default function DashboardProductsPage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           {/* Add Product Form */}
-          <div className="card">
+          <div className="card shadow-lg">
             <h2 className="mb-6">Create New Product</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
               <div>
                 <label htmlFor="title" className="block text-sm font-semibold mb-2 text-accent-header">
                   Product Title <span className="text-red-500">*</span>

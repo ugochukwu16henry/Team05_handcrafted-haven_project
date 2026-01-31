@@ -2,7 +2,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-bg-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">
-        <div className="card">
+        <div className="card shadow-xl">
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="mb-2">Welcome Back</h1>
@@ -12,7 +12,7 @@ export default function LoginPage() {
           </div>
           
           {/* Form */}
-          <form className="space-y-6">
+          <form className="space-y-6 max-w-full">
             <div>
               <label htmlFor="email" className="block text-sm font-semibold mb-2 text-accent-header">
                 Email Address
