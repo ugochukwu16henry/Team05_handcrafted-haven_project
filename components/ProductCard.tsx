@@ -20,10 +20,10 @@ export default function ProductCard({
   category,
 }: ProductCardProps) {
   return (
-    <Link href={`/products/${id}`} className="block">
-      <div className="card interactive hover:shadow-xl transition cursor-pointer overflow-hidden p-0">
+    <Link href={`/products/${id}`} className="block h-full">
+      <div className="card interactive hover:shadow-xl transition cursor-pointer overflow-hidden p-0 h-full flex flex-col">
         {/* Product Image */}
-        <div className="w-full h-64 bg-border-accent relative overflow-hidden">
+        <div className="w-full h-64 bg-border-accent relative overflow-hidden flex-shrink-0">
           {imageUrl ? (
             <img 
               src={imageUrl} 
@@ -43,16 +43,16 @@ export default function ProductCard({
         </div>
         
         {/* Product Info */}
-        <div className="p-6">
+        <div className="p-6 flex-1 flex flex-col">
           <h3 className="text-lg font-semibold text-accent-header mb-2 line-clamp-1">
             {title}
           </h3>
           
-          <p className="text-text-secondary text-sm mb-4 line-clamp-2">
+          <p className="text-text-secondary text-sm mb-4 line-clamp-2 flex-1">
             {description}
           </p>
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto">
             <div>
               <p className="text-xs text-text-secondary mb-1">by {artistName}</p>
               <p className="text-2xl font-bold text-accent-header">
@@ -60,7 +60,7 @@ export default function ProductCard({
               </p>
             </div>
             
-            <button className="bg-border-accent text-text-background px-4 py-2 rounded-lg font-semibold text-sm interactive hover:opacity-90 transition">
+            <button className="bg-border-accent text-text-background px-4 py-2.5 rounded-lg font-semibold text-sm interactive hover:opacity-90 transition min-h-[44px] flex items-center">
               View Details
             </button>
           </div>
