@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.log(`Error in /api/products(post endpoint): ${error}`);
+    console.log(`Error in POST /api/products(: ${error}`);
     return Response.json(
       {
         error: "Failed to create product",
@@ -58,7 +58,7 @@ export async function GET() {
       { status: 200 },
     );
   } catch (error) {
-    console.log(`Error in /api/products(get endpoint): ${error}`);
+    console.log(`Error in GET/api/products: ${error}`);
     return Response.json(
       {
         error: "Failed to create product",

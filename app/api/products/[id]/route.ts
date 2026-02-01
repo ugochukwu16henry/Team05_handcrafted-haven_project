@@ -86,3 +86,44 @@ export async function PUT(request: NextRequest, { params }: PageProps) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest, { params }: PageProps) {
+  const { id } = await params;
+
+  try {
+    const client = await clientPromise;
+    const db = client.db("wdd430");
+
+    const product = await db
+      .collection("products")
+      .findOneAndDelete({ _id: new ObjectId(id) });
+
+    if (!product) {
+      return Response.json(
+        {
+          success: false,
+          message: "No product found",
+        },
+        { status: 400 },
+      );
+    }
+
+    return Response.json(
+      {
+        success: true,
+        message: "Product successfully deleted",
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log(`Error in DELETE /api/products/:id ${error}`);
+    return Response.json(
+      {
+        error: "Failed to delete product",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
