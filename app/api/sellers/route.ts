@@ -1,15 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '../lib/mongodb';
 import { Seller } from '../types/user';
-import { ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb';
 
 // GET all sellers
 export async function GET(request: NextRequest) {
   try {
     const db = await getDatabase();
     const sellers = await db.collection<Seller>('sellers').find({}).toArray();
-    
-    return NextResponse.json(sellers, { status: 200 });
+
+    // Convert ObjectIds to strings for frontend
+    const sellersJson = sellers.map((s) => ({
+      ...s,
+      _id: s._id?.toString(),
+      userId: s.userId?.toString(),
+    }));
+
+    return NextResponse.json(sellersJson, { status: 200 });
   } catch (error) {
     console.error('Error fetching sellers:', error);
     return NextResponse.json(
@@ -48,9 +55,13 @@ export async function POST(request: NextRequest) {
     };
 
     const result = await db.collection<Seller>('sellers').insertOne(seller);
-    
+
+    // Return JSON with string IDs
     return NextResponse.json(
-      { ...seller, _id: result.insertedId },
+      {
+        ...seller,
+        _id: result.insertedId.toString(),
+      },
       { status: 201 }
     );
   } catch (error) {
@@ -62,6 +73,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// PUT / update seller
 export async function PUT(request: NextRequest) {
   try {
     const db = await getDatabase();
@@ -89,20 +101,28 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const result = await db.collection<Seller>('sellers').findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: body },
-      { returnDocument: 'after' }
-    );
+   const result = await db.collection<Seller>('sellers').findOneAndUpdate(
+  { _id: new ObjectId(id) },
+  { $set: body },
+  { returnDocument: 'after' }
+);
 
-    if (!result.value) {
-      return NextResponse.json(
-        { error: 'Seller not found' },
-        { status: 404 }
-      );
-    }
+// Null check
+if (!result) {
+  return NextResponse.json(
+    { error: 'Seller not found' },
+    { status: 404 }
+  );
+}
 
-    return NextResponse.json(result.value, { status: 200 });
+// Convert ObjectIds to strings for frontend
+const updatedSellerJson = {
+  ...result,
+  _id: result._id?.toString(),
+  userId: result.userId?.toString(),
+};
+
+return NextResponse.json(updatedSellerJson, { status: 200 });
   } catch (error) {
     console.error('Error updating seller:', error);
     return NextResponse.json(
