@@ -284,10 +284,16 @@ export default function DashboardPage() {
   );
 }
 
-// Glassmorphism Card Component
-function GlassCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function GlassCard({
+  children,
+  className = '',
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`backdrop-blur-xl bg-white/70 dark:bg-[#1f1f1f]/70 border border-border-color/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 ${className}`}>
+    <div
+      {...props}
+      className={`backdrop-blur-xl bg-white/70 dark:bg-[#1f1f1f]/70 border border-border-color/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 ${className}`}
+    >
       {children}
     </div>
   );
