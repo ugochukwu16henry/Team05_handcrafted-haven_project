@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,10 @@ const config: Config = {
         'bg-primary': '#FFFFFF',
         'bg-secondary': '#F9FAFB',
         'border-color': '#E5E7EB',
+      },
+      animation: {
+        'shimmer': 'shimmer 2s infinite',
+        'slide-in': 'slideIn 0.3s ease-out',
       },
     },
   },
