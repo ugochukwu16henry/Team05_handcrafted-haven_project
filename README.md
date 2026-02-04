@@ -65,22 +65,27 @@ pnpm install
 pnpm run dev
 ```
 
-**If you see `ERR_PNPM_EPERM` / "operation not permitted, rename"**  
-Something is locking `node_modules` (IDE, terminal, antivirus, or OneDrive). Do this:
-
-1. **Close** all terminals in this project and any other apps using the project folder.
-2. **Optional:** Close Cursor/VS Code (or at least don’t have the project’s `node_modules` open in the file tree).
-3. Open a **new PowerShell window** (not inside the IDE).
-4. Run a clean install:
+**"Next.js not found" or install fails (ELIFECYCLE / EPERM)**  
+`node_modules` is missing or broken. Do a clean install **from a new PowerShell window** (Start menu → PowerShell), not from a terminal inside the project:
 
 ```powershell
-cd d:\Team05_handcrafted-haven_project
-Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
+# Delete from outside the project so nothing locks the folder
+Remove-Item -Recurse -Force "D:\Team05_handcrafted-haven_project\node_modules" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "D:\Team05_handcrafted-haven_project\.next" -ErrorAction SilentlyContinue
+
+cd D:\Team05_handcrafted-haven_project
 pnpm install
 pnpm run dev
 ```
 
-If it still fails, temporarily **pause OneDrive** (or other sync) for this folder, or **exclude** the project folder from Windows Defender real-time scanning, then repeat the steps above.
+**If you see `ERR_PNPM_EPERM` / "operation not permitted, rename"**  
+Something is locking `node_modules` (IDE, terminal, antivirus, or OneDrive). Close all terminals in the project and Cursor if needed, then open a **new PowerShell** and run the block above. If it still fails, pause OneDrive for this folder or exclude it from Windows Defender real-time scanning, then try again.
 
 **If you see `ERR_PNPM_ENOENT` / "no such file or directory, rename"**  
 The project uses `.npmrc` with `node-linker=hoisted` to avoid Windows path issues. After the clean install above, if the error persists, close other terminals/IDEs using the project, disable any sync (e.g. OneDrive) on the project folder, then run `pnpm install` again.
+
+**EPERM / "operation not permitted, scandir" on `.next`**  
+Stop the dev server (Ctrl+C), then clear the cache and start again: `pnpm run dev:clean`. If that still fails, close Cursor and all terminals, open a new PowerShell, run `Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue`, then `pnpm run dev`.
+
+**"failed to create junction point" / "Incorrect function (os error 1)"**  
+The dev script automatically uses the webpack bundler on Windows instead of Turbopack to avoid this. If you still see it, clear the cache and run again: `Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue; pnpm run dev`. To use Turbopack on Windows you can enable **Developer Mode** (Settings → Privacy & security → For developers → Developer Mode), then run `pnpm run dev -- --turbopack`.

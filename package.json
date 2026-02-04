@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "node scripts/run-next.js dev",
+    "dev:clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && node scripts/run-next.js dev",
     "build": "node scripts/run-next.js build",
     "start": "node scripts/run-next.js start",
     "lint": "node scripts/run-next.js lint"

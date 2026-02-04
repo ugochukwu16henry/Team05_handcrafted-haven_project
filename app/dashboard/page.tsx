@@ -13,37 +13,6 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
-<<<<<<< HEAD
-  return (
-    <div className="flex h-screen bg-bg-secondary">
-      {/* Sidebar */}
-      <aside className="w-60 bg-bg-primary border-r border-border-color">
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-accent-header rounded-full"></div>
-            <span className="text-xl font-bold">Handcrafted Haven</span>
-          </div>
-          
-          <nav className="space-y-2">
-            <a href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-bg-secondary text-accent-header font-medium">
-              <span>🏠</span> Home
-            </a>
-            <a href="/dashboard/products" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-secondary interactive">
-              <span>📦</span> Products
-            </a>
-            <a href="/dashboard/sellers" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-bg-secondary interactive">
-              <span>👥</span> Sellers
-            </a>
-          </nav>
-        </div>
-        
-        <div className="absolute bottom-0 w-60 p-6 border-t border-border-color">
-          <button className="flex items-center gap-3 interactive">
-            <span>🚪</span> Sign Out
-          </button>
-        </div>
-      </aside>
-=======
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -61,8 +30,7 @@ export default function DashboardPage() {
       setLoading(true);
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 800));
->>>>>>> b36577c4bd5b52e3ffb5a9dd40b75f83054a29b0
-      
+
       setStats({
         totalSales: 4890.80,
         pendingOrders: 5430.03,

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 // GET all products, POST new products
-import { NextResponse } from "next/server";
-=======
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "../lib/mongodb";
 
@@ -17,7 +14,7 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date(),
     });
 
-    return Response.json(
+    return NextResponse.json(
       {
         success: true,
         message: "Product successfully created",
@@ -26,18 +23,19 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.log(`Error in POST /api/products(: ${error}`);
-    return Response.json(
-      {
-        error: "Failed to create product",
-      },
-      {
-        status: 500,
-      },
+    console.error("Error in POST /api/products:", error);
+    const message =
+      error instanceof Error && error.message.includes("MONGODB_URI")
+        ? "Database not configured. Add MONGODB_URI to .env.local"
+        : "Failed to create product";
+    const status =
+      message.includes("not configured") ? 503 : 500;
+    return NextResponse.json(
+      { error: message },
+      { status },
     );
   }
 }
->>>>>>> b36577c4bd5b52e3ffb5a9dd40b75f83054a29b0
 
 export async function GET() {
   try {
@@ -45,32 +43,28 @@ export async function GET() {
     const db = client.db("wdd430");
 
     const products = await db.collection("products").find({}).toArray();
-    if (!products) {
-      return Response.json(
-        {
-          success: true,
-          message: "No products yet",
-        },
+    if (!products || products.length === 0) {
+      return NextResponse.json(
+        { success: true, message: "No products yet", products: [] },
         { status: 200 },
       );
     }
 
-    return Response.json(
-      {
-        success: true,
-        products: products,
-      },
+    return NextResponse.json(
+      { success: true, products },
       { status: 200 },
     );
   } catch (error) {
-    console.log(`Error in GET/api/products: ${error}`);
-    return Response.json(
-      {
-        error: "Failed to create product",
-      },
-      {
-        status: 500,
-      },
+    console.error("Error in GET /api/products:", error);
+    const message =
+      error instanceof Error && error.message.includes("MONGODB_URI")
+        ? "Database not configured. Add MONGODB_URI to .env.local"
+        : "Failed to fetch products";
+    const status =
+      message.includes("not configured") ? 503 : 500;
+    return NextResponse.json(
+      { error: message },
+      { status },
     );
   }
 }
