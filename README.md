@@ -20,23 +20,13 @@ Handcrafted Haven aims to revolutionize the way handcrafted items are discovered
 ### Prerequisites
 
 - **Node.js** 18.17 or later
-- **npm** or **pnpm**
+- **pnpm** ([install](https://pnpm.io/installation): `npm install -g pnpm`)
 
 ### Install and run
 
-Use **one** package manager for install and run (don’t mix npm and pnpm).
+This project uses **pnpm** only.
 
-**With npm:**
-
-```bash
-cd d:\Team05_handcrafted-haven_project
-npm install
-npm run dev
-```
-
-**With pnpm:**
-
-```bash
+```powershell
 cd d:\Team05_handcrafted-haven_project
 pnpm install
 pnpm run dev
@@ -44,14 +34,20 @@ pnpm run dev
 
 Then open **http://localhost:3000** in your browser.
 
+**Quick fix (if install or dev ever fail):** Clean and reinstall:
+
+```powershell
+Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue; pnpm install; pnpm run dev
+```
+
 ### Scripts
 
-| Script    | Description              |
-| --------- | ------------------------- |
-| `npm run dev`   | Start development server  |
-| `npm run build` | Build for production      |
-| `npm run start` | Start production server   |
-| `npm run lint`  | Run Next.js ESLint        |
+| Script         | Description              |
+| -------------- | ------------------------- |
+| `pnpm run dev`   | Start development server  |
+| `pnpm run build` | Build for production      |
+| `pnpm run start` | Start production server   |
+| `pnpm run lint`  | Run Next.js ESLint        |
 
 ### Optional: environment
 
@@ -59,22 +55,32 @@ Copy `.env.example` to `.env` and set `MONGODB_URI` when you add a database.
 
 ### If the app won’t start
 
-If you see errors like `'next' is not recognized` or `Cannot find module '../server/require-hook'`, do a **clean install** (use one package manager only):
+**`'next' is not recognized` or `Command "next" not found`**  
+Do a **clean install** with pnpm:
 
-**npm:**
-
-```bash
-cd d:\Team05_handcrafted-haven_project
-Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
-npm install
-npm run dev
-```
-
-**pnpm:**
-
-```bash
+```powershell
 cd d:\Team05_handcrafted-haven_project
 Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
 pnpm install
 pnpm run dev
 ```
+
+**If you see `ERR_PNPM_EPERM` / "operation not permitted, rename"**  
+Something is locking `node_modules` (IDE, terminal, antivirus, or OneDrive). Do this:
+
+1. **Close** all terminals in this project and any other apps using the project folder.
+2. **Optional:** Close Cursor/VS Code (or at least don’t have the project’s `node_modules` open in the file tree).
+3. Open a **new PowerShell window** (not inside the IDE).
+4. Run a clean install:
+
+```powershell
+cd d:\Team05_handcrafted-haven_project
+Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue
+pnpm install
+pnpm run dev
+```
+
+If it still fails, temporarily **pause OneDrive** (or other sync) for this folder, or **exclude** the project folder from Windows Defender real-time scanning, then repeat the steps above.
+
+**If you see `ERR_PNPM_ENOENT` / "no such file or directory, rename"**  
+The project uses `.npmrc` with `node-linker=hoisted` to avoid Windows path issues. After the clean install above, if the error persists, close other terminals/IDEs using the project, disable any sync (e.g. OneDrive) on the project folder, then run `pnpm install` again.
