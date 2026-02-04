@@ -52,19 +52,44 @@ const sampleProducts = [
   },
 ];
 
+const categories = ['All', 'Ceramics', 'Woodwork', 'Textiles', 'Art', 'Leather Goods', 'Jewelry'];
+
 export default function ProductsPage() {
   return (
-    <main className="min-h-screen bg-bg-secondary py-12">
+    <main className="min-h-screen bg-gradient-to-b from-bg-secondary to-bg-primary py-12 md:py-20">
       <div className="container-fluid">
-        <div className="mb-8">
-          <h1 className="mb-4">Browse Our Collection</h1>
-          <p className="text-lg text-text-secondary">
-            Discover unique, handcrafted items from talented artisans around the world.
+        {/* Header */}
+        <div className="mb-12">
+          <div className="inline-block mb-4 px-4 py-2 bg-accent-400 text-accent-header rounded-full text-sm font-semibold">
+            ✨ Our Collection
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-accent-header">Browse Our Collection</h1>
+          <p className="text-lg text-text-secondary max-w-2xl">
+            Discover unique, handcrafted items from talented artisans around the world. Each piece tells a story and is made with passion.
           </p>
+        </div>
+
+        {/* Filter Section */}
+        <div className="mb-10 pb-8 border-b-2 border-border-accent">
+          <p className="text-sm text-text-secondary mb-4 font-semibold">FILTER BY CATEGORY</p>
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`px-6 py-2 rounded-lg font-medium text-sm transition-all ${
+                  category === 'All'
+                    ? 'bg-accent-header text-text-background shadow-md'
+                    : 'bg-bg-primary text-accent-header border-2 border-border-accent hover:border-accent-header'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
         
         {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sampleProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -76,6 +101,13 @@ export default function ProductsPage() {
               category={product.category}
             />
           ))}
+        </div>
+
+        {/* Load More */}
+        <div className="mt-16 text-center">
+          <button className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold text-lg interactive hover:opacity-90 transition shadow-md">
+            Load More Products
+          </button>
         </div>
       </div>
     </main>

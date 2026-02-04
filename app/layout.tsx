@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Handcrafted Haven",
@@ -10,15 +8,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true}>
-        <Header />
+      <body className="flex flex-col min-h-screen">
         {children}
-        <Footer />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-bg-secondary">
+      
       {/* Sidebar */}
       <aside className="w-60 bg-primary border-r border-border-color">
         <div className="p-6">
