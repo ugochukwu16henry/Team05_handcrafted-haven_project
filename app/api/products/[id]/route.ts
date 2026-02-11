@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import clientPromise from "../../lib/mongodb";
 import { NextResponse, NextRequest } from "next/server";
+import { mongoIdValidation } from "../../validation/product";
 
 interface PageProps {
   params: Promise<{
@@ -14,6 +15,16 @@ export async function GET(request: NextRequest, { params }: PageProps) {
   try {
     const client = await clientPromise;
     const db = client.db("wdd430");
+
+    const validation = mongoIdValidation.safeParse({ id });
+    console.log(validation);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error.format() },
+        { status: 400 },
+      );
+    }
 
     const product = await db
       .collection("products")
@@ -40,7 +51,7 @@ export async function GET(request: NextRequest, { params }: PageProps) {
     console.log(`Error in /api/products/:id ${error}`);
     return Response.json(
       {
-        error: "Failed to create product",
+        error: "Failed to get product",
       },
       {
         status: 500,
