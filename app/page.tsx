@@ -78,7 +78,10 @@ export default function Home() {
             >
               Sign In
             </Link>
-          </div>
+            <Link href="/login" className="interactive">
+              Login
+            </Link>
+          </nav>
         </div>
       </section>
 
@@ -228,13 +231,38 @@ export default function Home() {
             </Link>
             <Link
               href="/products"
-              className="bg-border-accent text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
+              className="bg-text-background text-accent-header px-10 py-4 rounded-lg font-semibold interactive"
             >
-              Explore Products
+              Start Exploring
+            </Link>
+
+          </div>
+        </section>
+      </main>
+  
+
+      {/* ================= FOOTER ================= */}
+      <footer className="w-full bg-bg-primary border-t border-border-color">
+        <div className="container-fluid py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+
+          <p className="text-text-secondary text-sm">
+            © {new Date().getFullYear()} Handcrafted Haven. All rights reserved.
+          </p>
+
+          <div className="flex gap-6 text-sm">
+            <Link href="/about" className="interactive">
+              About
+            </Link>
+            <Link href="/contact" className="interactive">
+              Contact
+            </Link>
+            <Link href="/privacy" className="interactive">
+              Privacy Policy
             </Link>
           </div>
+
         </div>
-      </section>
-    </main>
+      </footer>
+    </>
   );
 }

@@ -14,6 +14,8 @@ interface Product {
   imageUrl?: string;
 }
 
+const categories = ['All', 'Ceramics', 'Woodwork', 'Textiles', 'Art', 'Leather Goods', 'Jewelry'];
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ export default function ProductsPage() {
   }, [sellerFilter]);
 
   return (
-    <main className="min-h-screen bg-bg-secondary py-12">
+    <main className="min-h-screen bg-gradient-to-b from-bg-secondary to-bg-primary py-12 md:py-20">
       <div className="container-fluid">
         <div className="mb-8 page-header">
           <h1 className="mb-4">Browse Our Collection</h1>
@@ -85,34 +87,46 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <p className="text-text-secondary">Loading products...</p>
-          </div>
-        ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <ProductCard
-                key={product._id}
-                id={product._id}
-                title={product.title}
-                description={product.description}
-                price={product.price}
-                artistName={product.artistName}
-                category={product.category}
-                imageUrl={product.imageUrl}
-              />
+        {/* Filter Section */}
+        <div className="mb-10 pb-8 border-b-2 border-border-accent">
+          <p className="text-sm text-text-secondary mb-4 font-semibold">FILTER BY CATEGORY</p>
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`px-6 py-2 rounded-lg font-medium text-sm transition-all ${
+                  category === 'All'
+                    ? 'bg-accent-header text-text-background shadow-md'
+                    : 'bg-bg-primary text-accent-header border-2 border-border-accent hover:border-accent-header'
+                }`}
+              >
+                {category}
+              </button>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-text-secondary">
-              {sellerFilter
-                ? "No products found for this seller."
-                : "No products available yet."}
-            </p>
-          </div>
-        )}
+        </div>
+        
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sampleProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              artistName={product.artistName}
+              category={product.category}
+            />
+          ))}
+        </div>
+
+        {/* Load More */}
+        <div className="mt-16 text-center">
+          <button className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold text-lg interactive hover:opacity-90 transition shadow-md">
+            Load More Products
+          </button>
+        </div>
       </div>
     </main>
   );

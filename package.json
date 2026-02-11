@@ -14,14 +14,15 @@
     "lint": "node scripts/run-next.js lint"
   },
   "dependencies": {
-    "mongodb": "^6.21.0",
+    "autoprefixer": "^10.4.23",
+    "express": "^5.2.1",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -128,12 +128,17 @@ export default function LoginPage() {
           </div>
           
           {/* Sign up link */}
-          <p className="text-center text-sm text-text-secondary">
+          <p className="text-center text-sm text-text-secondary border-t border-border-color pt-6">
             Don't have an account?{' '}
             <Link href="/signup" className="text-accent-header font-semibold interactive hover:underline">
               Create account
             </Link>
           </p>
+        </div>
+
+        {/* Additional Info */}
+        <div className="mt-8 text-center text-sm text-text-secondary">
+          <p>Need help? <Link href="/support" className="text-accent-header font-semibold interactive hover:underline">Contact support</Link></p>
         </div>
       </div>
     </main>
