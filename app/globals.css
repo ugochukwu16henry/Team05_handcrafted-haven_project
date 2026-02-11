@@ -45,11 +45,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
-  body {
-    font-size: 14px;
-  }
-}
+/* Keep 16px base for readability; scale type via classes where needed */
 
 /* Typography hierarchy - Improved readability and visual hierarchy */
 h1 {
@@ -206,6 +202,91 @@ main {
 main.auth-layout {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+/* Home page: standard section spacing (8px scale) */
+.home-section {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .home-section {
+    padding-top: 6rem;   /* 96px */
+    padding-bottom: 6rem;
+  }
+}
+
+.home-section + .home-section {
+  margin-top: 0;
+}
+
+/* Section title/subtitle for consistent hierarchy */
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--accent-header);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-sm);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+/* Standard CTA button styles for home */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--space-md) var(--space-xl);
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent-header);
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: var(--space-md) var(--space-xl);
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid currentColor;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--accent-header);
+  outline-offset: 2px;
 }
 
 @media (max-width: 767px) {
