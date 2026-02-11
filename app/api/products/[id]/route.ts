@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import clientPromise from "../../lib/mongodb";
 import { NextResponse, NextRequest } from "next/server";
-import { mongoIdValidation } from "../../validation/product";
+import { mongoIdValidation, productSchema } from "../../validation/product";
 
 interface PageProps {
   params: Promise<{
@@ -17,7 +17,6 @@ export async function GET(request: NextRequest, { params }: PageProps) {
     const db = client.db("wdd430");
 
     const validation = mongoIdValidation.safeParse({ id });
-    console.log(validation);
 
     if (!validation.success) {
       return NextResponse.json(
@@ -66,7 +65,30 @@ export async function PUT(request: NextRequest, { params }: PageProps) {
     const client = await clientPromise;
     const db = client.db("wdd430");
 
+    const idValidation = mongoIdValidation.safeParse({ id });
+
+    console.log(idValidation);
+
+    if (!idValidation.success) {
+      return NextResponse.json(
+        { error: idValidation.error.format() },
+        { status: 400 },
+      );
+    }
+
     const body = await request.json();
+
+    const validation = productSchema.safeParse(body);
+
+    console.log(validation);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error.format() },
+        { status: 400 },
+      );
+    }
+
     const product = await db.collection("products").findOneAndUpdate(
       { _id: new ObjectId(id) },
       {

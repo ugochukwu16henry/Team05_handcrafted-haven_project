@@ -6,7 +6,7 @@ export const productSchema = z.object({
   description: z.string().nonempty().trim(),
   price: z.number().nonnegative(),
   sellerId: z.string().refine((val) => ObjectId.isValid(val), {
-    message: "Invalid ObjectId",
+    message: "Invalid seller Id",
   }),
   category: z.string().nonempty(),
   imageUrl: z.string().nonempty(),
@@ -14,6 +14,6 @@ export const productSchema = z.object({
 
 export const mongoIdValidation = z.object({
   id: z.string().refine((val) => ObjectId.isValid(val), {
-    message: "Invalid ObjectId",
+    message: "Invalid Mongodb Id",
   }),
 });
