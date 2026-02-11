@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import ProductCard from '@/components/ProductCard';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/ProductCard";
 
 interface Product {
   _id: string;
@@ -18,7 +18,7 @@ interface Product {
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sellerSearch, setSellerSearch] = useState('');
+  const [sellerSearch, setSellerSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ export default function Home() {
   useEffect(() => {
     if (sellerSearch) {
       // Filter products by seller name (artistName)
-      const filtered = products.filter(product =>
-        product.artistName.toLowerCase().includes(sellerSearch.toLowerCase())
+      const filtered = products.filter((product) =>
+        product.artistName.toLowerCase().includes(sellerSearch.toLowerCase()),
       );
       setFilteredProducts(filtered);
     } else {
@@ -39,14 +39,14 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/products');
+      const response = await fetch("/api/products");
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.products);
         setFilteredProducts(data);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
@@ -61,18 +61,18 @@ export default function Home() {
             Discover Unique Handcrafted Treasures
           </h1>
           <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Connect with talented artisans and find one-of-a-kind pieces that tell a story. 
-            Every item is crafted with passion and care.
+            Connect with talented artisans and find one-of-a-kind pieces that
+            tell a story. Every item is crafted with passion and care.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
+            <Link
               href="/products"
               className="bg-border-accent text-text-primary px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-lg"
             >
               Browse Products
             </Link>
-            <Link 
+            <Link
               href="/login"
               className="bg-transparent border-2 border-text-background text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:bg-text-background hover:text-accent-header transition"
             >
@@ -88,12 +88,16 @@ export default function Home() {
           <div className="mb-8 page-header">
             <h2 className="mb-4 text-center md:text-left">Featured Products</h2>
             <p className="text-text-secondary mb-6 text-center md:text-left">
-              Discover unique, handcrafted items from talented artisans around the world.
+              Discover unique, handcrafted items from talented artisans around
+              the world.
             </p>
-            
+
             {/* Seller Search */}
             <div className="mb-6 max-w-md mx-auto md:mx-0">
-              <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
+              <label
+                htmlFor="sellerSearch"
+                className="block text-sm font-semibold mb-2 text-accent-header"
+              >
                 Search by Seller Name
               </label>
               <input
@@ -129,11 +133,13 @@ export default function Home() {
           ) : (
             <div className="text-center py-12">
               <p className="text-text-secondary mb-4">
-                {sellerSearch ? 'No products found for this seller.' : 'No products available yet.'}
+                {sellerSearch
+                  ? "No products found for this seller."
+                  : "No products available yet."}
               </p>
               {sellerSearch && (
                 <button
-                  onClick={() => setSellerSearch('')}
+                  onClick={() => setSellerSearch("")}
                   className="text-accent-header font-semibold interactive hover:underline py-2 px-2 min-h-[44px] inline-flex items-center"
                   aria-label="Clear seller search"
                 >
@@ -162,32 +168,42 @@ export default function Home() {
           <div className="text-center mb-12">
             <h2 className="mb-4">Why Choose Handcrafted Haven?</h2>
             <p className="text-text-secondary max-w-2xl mx-auto">
-              We bring together a community of passionate creators and conscious consumers
+              We bring together a community of passionate creators and conscious
+              consumers
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="card text-center interactive hover:shadow-xl transition">
               <div className="text-5xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Unique Creations</h3>
+              <h3 className="text-xl font-semibold mb-3 text-accent-header">
+                Unique Creations
+              </h3>
               <p className="text-text-secondary">
-                Every piece is handcrafted with care, making each item truly one-of-a-kind
+                Every piece is handcrafted with care, making each item truly
+                one-of-a-kind
               </p>
             </div>
-            
+
             <div className="card text-center interactive hover:shadow-xl transition">
               <div className="text-5xl mb-4">👥</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Support Artisans</h3>
+              <h3 className="text-xl font-semibold mb-3 text-accent-header">
+                Support Artisans
+              </h3>
               <p className="text-text-secondary">
-                Connect directly with creators and support their craft and livelihood
+                Connect directly with creators and support their craft and
+                livelihood
               </p>
             </div>
-            
+
             <div className="card text-center interactive hover:shadow-xl transition">
               <div className="text-5xl mb-4">🌍</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Sustainable Choice</h3>
+              <h3 className="text-xl font-semibold mb-3 text-accent-header">
+                Sustainable Choice
+              </h3>
               <p className="text-text-secondary">
-                Choose quality over quantity and contribute to sustainable consumption
+                Choose quality over quantity and contribute to sustainable
+                consumption
               </p>
             </div>
           </div>
@@ -199,18 +215,18 @@ export default function Home() {
         <div className="container-fluid text-center">
           <h2 className="mb-4">Ready to Start Your Journey?</h2>
           <p className="text-text-secondary mb-8 max-w-2xl mx-auto">
-            Join our community of artisans and art lovers. Whether you're looking to buy or sell, 
-            Handcrafted Haven is your destination.
+            Join our community of artisans and art lovers. Whether you're
+            looking to buy or sell, Handcrafted Haven is your destination.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
+            <Link
               href="/sellers/become"
               className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
             >
               Become a Seller
             </Link>
-            <Link 
+            <Link
               href="/products"
               className="bg-border-accent text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
             >

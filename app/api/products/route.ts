@@ -1,6 +1,7 @@
 // GET all products, POST new products
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "../lib/mongodb";
+import { productSchema } from "../validation/product";
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,6 +9,14 @@ export async function POST(request: NextRequest) {
     const db = client.db("wdd430");
 
     const body = await request.json();
+
+    const validation = productSchema.safeParse(body);
+    console.log(validation);
+
+    if (!validation.success) {
+      return NextResponse.json(validation.error.format(), { status: 400 });
+    }
+
     const product = await db.collection("products").insertOne({
       ...body,
       createdAt: new Date(),
@@ -28,12 +37,8 @@ export async function POST(request: NextRequest) {
       error instanceof Error && error.message.includes("MONGODB_URI")
         ? "Database not configured. Add MONGODB_URI to .env.local"
         : "Failed to create product";
-    const status =
-      message.includes("not configured") ? 503 : 500;
-    return NextResponse.json(
-      { error: message },
-      { status },
-    );
+    const status = message.includes("not configured") ? 503 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }
 
@@ -50,21 +55,14 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(
-      { success: true, products },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true, products }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/products:", error);
     const message =
       error instanceof Error && error.message.includes("MONGODB_URI")
         ? "Database not configured. Add MONGODB_URI to .env.local"
         : "Failed to fetch products";
-    const status =
-      message.includes("not configured") ? 503 : 500;
-    return NextResponse.json(
-      { error: message },
-      { status },
-    );
+    const status = message.includes("not configured") ? 503 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

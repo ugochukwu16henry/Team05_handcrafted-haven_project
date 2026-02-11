@@ -23,7 +23,9 @@ if (uri) {
   }
 } else {
   clientPromise = Promise.reject(
-    new Error("MONGODB_URI is not set. Add it to .env.local to use the database.")
+    new Error(
+      "MONGODB_URI is not set. Add it to .env.local to use the database.",
+    ),
   );
 }
 
