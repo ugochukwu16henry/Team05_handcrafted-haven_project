@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import ProductCard from '@/components/ProductCard';
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/ProductCard";
 
 interface Product {
   _id: string;
@@ -17,7 +17,7 @@ interface Product {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sellerFilter, setSellerFilter] = useState('');
+  const [sellerFilter, setSellerFilter] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -25,16 +25,17 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const url = sellerFilter 
+      const url = sellerFilter
         ? `/api/products?sellerId=${sellerFilter}`
-        : '/api/products';
+        : "/api/products";
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        console.log(data);
+        setProducts(data.products);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
@@ -50,12 +51,16 @@ export default function ProductsPage() {
         <div className="mb-8 page-header">
           <h1 className="mb-4">Browse Our Collection</h1>
           <p className="text-lg text-text-secondary mb-6">
-            Discover unique, handcrafted items from talented artisans around the world.
+            Discover unique, handcrafted items from talented artisans around the
+            world.
           </p>
-          
+
           {/* Seller Filter */}
           <div className="mb-6 max-w-2xl mx-auto">
-            <label htmlFor="sellerFilter" className="block text-sm font-semibold mb-2 text-accent-header">
+            <label
+              htmlFor="sellerFilter"
+              className="block text-sm font-semibold mb-2 text-accent-header"
+            >
               Filter by Seller ID (Optional)
             </label>
             <div className="flex gap-2">
@@ -69,7 +74,7 @@ export default function ProductsPage() {
               />
               {sellerFilter && (
                 <button
-                  onClick={() => setSellerFilter('')}
+                  onClick={() => setSellerFilter("")}
                   className="px-4 py-3 bg-border-accent text-text-background rounded-lg font-semibold interactive hover:opacity-90 transition whitespace-nowrap min-h-[44px] flex items-center"
                   aria-label="Clear seller filter"
                 >
@@ -79,7 +84,7 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
-        
+
         {loading ? (
           <div className="text-center py-12">
             <p className="text-text-secondary">Loading products...</p>
@@ -102,7 +107,9 @@ export default function ProductsPage() {
         ) : (
           <div className="text-center py-12">
             <p className="text-text-secondary">
-              {sellerFilter ? 'No products found for this seller.' : 'No products available yet.'}
+              {sellerFilter
+                ? "No products found for this seller."
+                : "No products available yet."}
             </p>
           </div>
         )}
