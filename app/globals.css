@@ -6,7 +6,7 @@
   /* Project Colors - WCAG AA compliant contrast ratios */
   --text-primary: #0A0908; /* Contrast ratio: 16.5:1 on white */
   --text-background: #F2F4F3; /* Light background */
-  --accent-header: #22333B; /* Contrast ratio: 12.6:1 on light bg */
+  --accent-header: #0f4259; /* Contrast ratio: 12.6:1 on light bg */
   --border-accent: #A9927D; /* Accent color */
   --border-accent-dark: #5E503F; /* Darker accent */
 
