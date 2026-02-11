@@ -53,6 +53,21 @@ Remove-Item -Recurse -Force node_modules, .next -ErrorAction SilentlyContinue; p
 
 Copy `.env.example` to `.env` and set `MONGODB_URI` when you add a database.
 
+## Deploying to Vercel
+
+- **1. Push this repo to GitHub/GitLab/Bitbucket.**
+- **2. Create a new Vercel project** and import the repo.
+- **3. Framework preset**: choose **Next.js** (Vercel usually auto-detects).
+- **4. Root directory**: use the repository root (same folder as `package.json`).
+- **5. Install & build commands** (Vercel usually auto-fills from `package.json`):
+  - Install: `pnpm install`
+  - Build: `pnpm run build`
+- **6. Environment variables**:
+  - Add `MONGODB_URI` under **Project Settings → Environment Variables**.
+  - Use the same value you would use locally in `.env` (connection string including the database name).
+- **7. Deploy**. Vercel will build the app and host it at your Vercel URL.
+
+
 ### If the app won’t start
 
 **`'next' is not recognized` or `Command "next" not found`**  
