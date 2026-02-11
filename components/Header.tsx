@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isAuthPage = pathname === '/login' || pathname === '/signup';
 
   return (
     <header className="bg-bg-primary border-b border-border-color sticky top-0 z-50 shadow-sm">
@@ -32,9 +35,11 @@ export default function Header() {
             <Link href="/sellers" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
               Sellers
             </Link>
-            <Link href="/dashboard" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
-              Dashboard
-            </Link>
+            {!isAuthPage && (
+              <Link href="/dashboard" className="text-text-primary font-medium px-4 py-2.5 rounded-lg interactive hover:text-accent-header hover:bg-bg-secondary transition-colors duration-200 min-h-[44px] flex items-center">
+                Dashboard
+              </Link>
+            )}
             <div className="flex items-center gap-3 ml-2">
               <Link 
                 href="/signup" 
@@ -93,13 +98,15 @@ export default function Header() {
               >
                 Sellers
               </Link>
-              <Link 
-                href="/dashboard" 
-                className="px-4 py-2 rounded-lg text-text-primary font-medium interactive hover:bg-bg-secondary transition" 
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
+              {!isAuthPage && (
+                <Link 
+                  href="/dashboard" 
+                  className="px-4 py-2 rounded-lg text-text-primary font-medium interactive hover:bg-bg-secondary transition" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              )}
               <Link 
                 href="/signup" 
                 className="px-4 py-3 rounded-lg text-text-primary font-medium interactive hover:bg-bg-secondary hover:text-accent-header transition-colors duration-200" 

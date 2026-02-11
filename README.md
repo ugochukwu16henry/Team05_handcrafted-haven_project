@@ -60,13 +60,21 @@ Copy `.env.example` to `.env` and set `MONGODB_URI` when you add a database.
 - **3. Framework preset**: choose **Next.js** (Vercel usually auto-detects).
 - **4. Root directory**: use the repository root (same folder as `package.json`).
 - **5. Install & build commands** (Vercel usually auto-fills from `package.json`):
-  - Install: `pnpm install`
+  - **Install:** set to `pnpm install --no-frozen-lockfile` (avoids lockfile mismatch errors when branches differ).
   - Build: `pnpm run build`
 - **6. Environment variables**:
   - Add `MONGODB_URI` under **Project Settings → Environment Variables**.
   - Use the same value you would use locally in `.env` (connection string including the database name).
 - **7. Deploy**. Vercel will build the app and host it at your Vercel URL.
 
+**If Vercel fails with `ERR_PNPM_OUTDATED_LOCKFILE` / "specifiers in the lockfile don't match"**  
+In the Vercel dashboard: **Project → Settings → General → Build & Development Settings**. Override **Install Command** to:
+
+```bash
+pnpm install --no-frozen-lockfile
+```
+
+Save and redeploy. That makes the install succeed even when `pnpm-lock.yaml` is out of sync with `package.json` (e.g. on different branches).
 
 ### If the app won’t start
 
