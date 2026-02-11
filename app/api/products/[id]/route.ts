@@ -127,6 +127,15 @@ export async function DELETE(request: NextRequest, { params }: PageProps) {
     const client = await clientPromise;
     const db = client.db("wdd430");
 
+    const idValidation = mongoIdValidation.safeParse({ id });
+
+    if (!idValidation.success) {
+      return NextResponse.json(
+        { error: idValidation.error.format() },
+        { status: 400 },
+      );
+    }
+
     const product = await db
       .collection("products")
       .findOneAndDelete({ _id: new ObjectId(id) });
