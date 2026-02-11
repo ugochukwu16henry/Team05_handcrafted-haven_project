@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+package-lock.json
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -15,6 +16,7 @@
 
 # next.js
 /.next/
+/.next-dev/
 /out/
 
 # production
@@ -32,7 +34,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-
+.env.local
 # vercel
 .vercel
 

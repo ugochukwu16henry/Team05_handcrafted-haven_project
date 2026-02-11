@@ -2,18 +2,24 @@
   "name": "team05_handcrafted-heaven_project",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "node scripts/run-next.js dev",
+    "dev:clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && node scripts/run-next.js dev",
+    "build": "node scripts/run-next.js build",
+    "start": "node scripts/run-next.js start",
+    "lint": "node scripts/run-next.js lint"
   },
   "dependencies": {
     "autoprefixer": "^10.4.23",
     "express": "^5.2.1",
     "next": "16.1.4",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
