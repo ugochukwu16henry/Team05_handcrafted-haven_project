@@ -27,9 +27,8 @@ export default function Home() {
 
   useEffect(() => {
     if (sellerSearch) {
-      // Filter products by seller name (artistName)
       const filtered = products.filter((product) =>
-        product.artistName.toLowerCase().includes(sellerSearch.toLowerCase()),
+        product.artistName.toLowerCase().includes(sellerSearch.toLowerCase())
       );
       setFilteredProducts(filtered);
     } else {
@@ -42,8 +41,8 @@ export default function Home() {
       const response = await fetch("/api/products");
       if (response.ok) {
         const data = await response.json();
-        setProducts(data.products);
-        setFilteredProducts(data);
+        setProducts(data.products ?? []);
+        setFilteredProducts(data.products ?? []);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -53,28 +52,30 @@ export default function Home() {
   };
 
   return (
-    <main>
-      {/* Hero Section */}
-      <section className="bg-accent-header text-text-background py-20 md:py-32">
+    <main id="main-content">
+      {/* Hero */}
+      <section
+        className="home-section bg-accent-header text-white"
+        aria-label="Welcome"
+      >
         <div className="container-fluid text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text-background">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-[2.75rem] max-w-4xl mx-auto mb-5 text-white">
             Discover Unique Handcrafted Treasures
           </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto opacity-90">
+          <p className="section-subtitle text-white/90 mb-10 mx-auto">
             Connect with talented artisans and find one-of-a-kind pieces that
             tell a story. Every item is crafted with passion and care.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/products"
-              className="bg-border-accent text-text-primary px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-lg"
+              className="btn-primary bg-border-accent text-accent-header hover:bg-[#9a846e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shadow-md w-full sm:w-auto min-w-[200px]"
             >
               Browse Products
             </Link>
             <Link
               href="/login"
-              className="bg-transparent border-2 border-text-background text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:bg-text-background hover:text-accent-header transition"
+              className="btn-secondary text-white border-white hover:bg-white hover:text-accent-header w-full sm:w-auto min-w-[200px]"
             >
               Sign In
             </Link>
@@ -82,38 +83,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-16 md:py-24 bg-bg-secondary">
+      {/* Featured Products */}
+      <section
+        className="home-section bg-bg-secondary"
+        aria-labelledby="featured-heading"
+      >
         <div className="container-fluid">
-          <div className="mb-8 page-header">
-            <h2 className="mb-4 text-center md:text-left">Featured Products</h2>
-            <p className="text-text-secondary mb-6 text-center md:text-left">
+          <header className="mb-8 md:mb-10">
+            <h2 id="featured-heading" className="section-title text-center md:text-left mb-2">
+              Featured Products
+            </h2>
+            <p className="text-text-secondary text-center md:text-left max-w-2xl">
               Discover unique, handcrafted items from talented artisans around
               the world.
             </p>
+          </header>
 
-            {/* Seller Search */}
-            <div className="mb-6 max-w-md mx-auto md:mx-0">
-              <label
-                htmlFor="sellerSearch"
-                className="block text-sm font-semibold mb-2 text-accent-header"
-              >
-                Search by Seller Name
-              </label>
-              <input
-                type="text"
-                id="sellerSearch"
-                value={sellerSearch}
-                onChange={(e) => setSellerSearch(e.target.value)}
-                placeholder="Enter seller name..."
-                className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-              />
-            </div>
+          <div className="mb-6 max-w-md">
+            <label
+              htmlFor="seller-search"
+              className="block text-sm font-medium text-accent-header mb-2"
+            >
+              Search by seller name
+            </label>
+            <input
+              type="search"
+              id="seller-search"
+              value={sellerSearch}
+              onChange={(e) => setSellerSearch(e.target.value)}
+              placeholder="e.g. Jane, Art Studio"
+              aria-describedby="seller-search-desc"
+              className="w-full px-4 py-3 border border-border-color rounded-lg bg-bg-primary text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent-header focus:border-transparent transition-shadow"
+            />
+            <span id="seller-search-desc" className="sr-only">
+              Filter the list below by typing a seller or artist name.
+            </span>
           </div>
 
           {loading ? (
-            <div className="text-center py-12">
-              <p className="text-text-secondary">Loading products...</p>
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              aria-busy="true"
+              aria-live="polite"
+            >
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="bg-bg-primary rounded-xl border border-border-color overflow-hidden animate-pulse"
+                  aria-hidden
+                >
+                  <div className="h-64 bg-border-color/30" />
+                  <div className="p-6 space-y-3">
+                    <div className="h-5 bg-border-color/40 rounded w-3/4" />
+                    <div className="h-4 bg-border-color/30 rounded w-full" />
+                    <div className="h-4 bg-border-color/30 rounded w-5/6" />
+                    <div className="h-8 bg-border-color/40 rounded w-1/3 mt-4" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -131,106 +158,130 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
+            <div
+              className="text-center py-12 px-4 bg-bg-primary rounded-xl border border-border-color"
+              role="status"
+            >
               <p className="text-text-secondary mb-4">
                 {sellerSearch
                   ? "No products found for this seller."
                   : "No products available yet."}
               </p>
-              {sellerSearch && (
+              {sellerSearch ? (
                 <button
+                  type="button"
                   onClick={() => setSellerSearch("")}
-                  className="text-accent-header font-semibold interactive hover:underline py-2 px-2 min-h-[44px] inline-flex items-center"
+                  className="text-accent-header font-semibold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-header focus-visible:ring-offset-2 rounded py-2 px-3 min-h-[44px] inline-flex items-center"
                   aria-label="Clear seller search"
                 >
                   Clear search
                 </button>
+              ) : (
+                <Link
+                  href="/sellers/become"
+                  className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] inline-flex shadow-md"
+                >
+                  Become a seller
+                </Link>
               )}
             </div>
           )}
 
           {filteredProducts.length > 0 && (
-            <div className="text-center mt-8">
+            <p className="text-center mt-10">
               <Link
                 href="/products"
-                className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md inline-block"
+                className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] shadow-md"
               >
-                View All Products
+                View all products
               </Link>
-            </div>
+            </p>
           )}
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 md:py-24 bg-bg-secondary">
+      {/* Why choose us */}
+      <section
+        className="home-section bg-bg-primary"
+        aria-labelledby="why-heading"
+      >
         <div className="container-fluid">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Why Choose Handcrafted Haven?</h2>
-            <p className="text-text-secondary max-w-2xl mx-auto">
+          <header className="text-center mb-10 md:mb-12">
+            <h2 id="why-heading" className="section-title">
+              Why choose Handcrafted Haven?
+            </h2>
+            <p className="section-subtitle">
               We bring together a community of passionate creators and conscious
-              consumers
+              consumers.
             </p>
-          </div>
+          </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">
-                Unique Creations
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
+              <span className="text-4xl mb-4 block" aria-hidden>
+                🎨
+              </span>
+              <h3 className="text-lg font-semibold text-accent-header mb-2">
+                Unique creations
               </h3>
-              <p className="text-text-secondary">
+              <p className="text-text-secondary text-sm leading-relaxed">
                 Every piece is handcrafted with care, making each item truly
-                one-of-a-kind
+                one-of-a-kind.
               </p>
-            </div>
-
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">👥</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">
-                Support Artisans
+            </article>
+            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
+              <span className="text-4xl mb-4 block" aria-hidden>
+                👥
+              </span>
+              <h3 className="text-lg font-semibold text-accent-header mb-2">
+                Support artisans
               </h3>
-              <p className="text-text-secondary">
+              <p className="text-text-secondary text-sm leading-relaxed">
                 Connect directly with creators and support their craft and
-                livelihood
+                livelihood.
               </p>
-            </div>
-
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">🌍</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">
-                Sustainable Choice
+            </article>
+            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
+              <span className="text-4xl mb-4 block" aria-hidden>
+                🌍
+              </span>
+              <h3 className="text-lg font-semibold text-accent-header mb-2">
+                Sustainable choice
               </h3>
-              <p className="text-text-secondary">
+              <p className="text-text-secondary text-sm leading-relaxed">
                 Choose quality over quantity and contribute to sustainable
-                consumption
+                consumption.
               </p>
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-bg-primary">
+      {/* CTA */}
+      <section
+        className="home-section bg-bg-secondary border-t border-border-color"
+        aria-labelledby="cta-heading"
+      >
         <div className="container-fluid text-center">
-          <h2 className="mb-4">Ready to Start Your Journey?</h2>
-          <p className="text-text-secondary mb-8 max-w-2xl mx-auto">
-            Join our community of artisans and art lovers. Whether you're
+          <h2 id="cta-heading" className="section-title mb-2">
+            Ready to start your journey?
+          </h2>
+          <p className="section-subtitle mb-8">
+            Join our community of artisans and art lovers. Whether you&apos;re
             looking to buy or sell, Handcrafted Haven is your destination.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/sellers/become"
-              className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
+              className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] shadow-md w-full sm:w-auto min-w-[200px]"
             >
-              Become a Seller
+              Become a seller
             </Link>
             <Link
               href="/products"
-              className="bg-border-accent text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
+              className="btn-secondary text-accent-header border-accent-header hover:bg-accent-header hover:text-white w-full sm:w-auto min-w-[200px]"
             >
-              Explore Products
+              Explore products
             </Link>
           </div>
         </div>

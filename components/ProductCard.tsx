@@ -20,49 +20,51 @@ export default function ProductCard({
   category,
 }: ProductCardProps) {
   return (
-    <Link href={`/products/${id}`} className="block h-full">
-      <div className="card interactive hover:shadow-xl transition cursor-pointer overflow-hidden p-0 h-full flex flex-col">
+    <Link
+      href={`/products/${id}`}
+      className="block h-full rounded-xl border border-border-color bg-bg-primary overflow-hidden shadow-sm hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-header focus-visible:ring-offset-2 transition-shadow duration-200"
+    >
+      <div className="h-full flex flex-col">
         {/* Product Image */}
-        <div className="w-full h-64 bg-border-accent relative overflow-hidden flex-shrink-0">
+        <div className="w-full h-64 bg-border-accent/20 relative overflow-hidden flex-shrink-0">
           {imageUrl ? (
-            <img 
-              src={imageUrl} 
-              alt={title} 
+            <img
+              src={imageUrl}
+              alt={title}
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-6xl">
+            <div className="w-full h-full flex items-center justify-center text-5xl text-border-accent/60" aria-hidden>
               🎨
             </div>
           )}
           {category && (
-            <span className="absolute top-4 right-4 bg-accent-header text-text-background px-3 py-1 rounded-full text-xs font-semibold">
+            <span className="absolute top-3 right-3 bg-accent-header text-white px-2.5 py-1 rounded-md text-xs font-medium">
               {category}
             </span>
           )}
         </div>
-        
+
         {/* Product Info */}
-        <div className="p-6 flex-1 flex flex-col">
+        <div className="p-5 flex-1 flex flex-col min-w-0">
           <h3 className="text-lg font-semibold text-accent-header mb-2 line-clamp-1">
             {title}
           </h3>
-          
+
           <p className="text-text-secondary text-sm mb-4 line-clamp-2 flex-1">
             {description}
           </p>
-          
-          <div className="flex items-center justify-between mt-auto">
-            <div>
-              <p className="text-xs text-text-secondary mb-1">by {artistName}</p>
-              <p className="text-2xl font-bold text-accent-header">
+
+          <div className="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-border-color">
+            <div className="min-w-0">
+              <p className="text-xs text-text-secondary mb-0.5">by {artistName}</p>
+              <p className="text-xl font-bold text-accent-header">
                 ${price.toFixed(2)}
               </p>
             </div>
-            
-            <button className="bg-border-accent text-text-background px-4 py-2.5 rounded-lg font-semibold text-sm interactive hover:opacity-90 transition min-h-[44px] flex items-center">
-              View Details
-            </button>
+            <span className="shrink-0 bg-border-accent text-accent-header px-4 py-2.5 rounded-lg font-semibold text-sm">
+              View details
+            </span>
           </div>
         </div>
       </div>

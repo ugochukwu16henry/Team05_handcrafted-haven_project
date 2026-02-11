@@ -204,6 +204,39 @@ main.auth-layout {
   padding-bottom: 0;
 }
 
+/* Screen-reader only (accessibility) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip to main content - visible on focus for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-md);
+  z-index: 100;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--accent-header);
+  color: var(--text-background);
+  font-weight: 600;
+  border-radius: 8px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-md);
+  outline: 2px solid var(--border-accent);
+  outline-offset: 2px;
+}
+
 /* Home page: standard section spacing (8px scale) */
 .home-section {
   padding-top: var(--space-3xl);

@@ -2,11 +2,19 @@
 
 import Link from 'next/link';
 
+type AuthLayoutProps = {
+  children: React.ReactNode;
+  /** Wider form area for longer forms (e.g. become a seller) */
+  formWidth?: 'default' | 'wide';
+  /** Left panel tagline */
+  tagline?: string;
+};
+
 export default function AuthLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  formWidth = 'default',
+  tagline = 'Discover unique handmade products from trusted sellers.',
+}: AuthLayoutProps) {
   return (
     <main className="auth-layout min-h-screen flex flex-col md:flex-row">
       {/* Left: Branding panel — desktop split, on mobile order-2 so form is first */}
@@ -26,7 +34,7 @@ export default function AuthLayout({
           <span className="text-xl font-bold text-white">Handcrafted Haven</span>
         </Link>
         <p className="text-white/90 text-base md:text-lg max-w-sm mb-8">
-          Discover unique handmade products from trusted sellers.
+          {tagline}
         </p>
         {/* Subtle craft illustration */}
         <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 opacity-20" aria-hidden>
@@ -39,8 +47,8 @@ export default function AuthLayout({
       </section>
 
       {/* Right: Form panel */}
-      <section className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 bg-bg-secondary order-1 md:order-2">
-        <div className="w-full max-w-[420px]">{children}</div>
+      <section className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 bg-bg-secondary order-1 md:order-2 overflow-y-auto">
+        <div className={`w-full ${formWidth === 'wide' ? 'max-w-[32rem]' : 'max-w-[420px]'}`}>{children}</div>
       </section>
     </main>
   );
