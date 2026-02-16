@@ -41,8 +41,8 @@ export default function Home() {
       const response = await fetch("/api/products");
       if (response.ok) {
         const data = await response.json();
-        setProducts(data.products ?? []);
-        setFilteredProducts(data.products ?? []);
+        setProducts(data?.products ?? []);
+        setFilteredProducts(data?.products ?? []);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -52,98 +52,74 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content">
-      {/* Hero */}
-      <section
-        className="home-section bg-accent-header text-white"
-        aria-label="Welcome"
-      >
-        <div className="container-fluid text-center">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-[2.75rem] max-w-4xl mx-auto mb-5 text-white">
-            Discover Unique Handcrafted Treasures
-          </h1>
-          <p className="section-subtitle text-white/90 mb-10 mx-auto">
-            Connect with talented artisans and find one-of-a-kind pieces that
-            tell a story. Every item is crafted with passion and care.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/products"
-              className="btn-primary bg-border-accent text-accent-header hover:bg-[#9a846e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shadow-md w-full sm:w-auto min-w-[200px]"
-            >
-              Browse Products
-            </Link>
-            <Link
-              href="/login"
-              className="btn-secondary text-white border-white hover:bg-white hover:text-accent-header w-full sm:w-auto min-w-[200px]"
-            >
-              Sign In
-            </Link>
+    <main className="bg-white">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white overflow-hidden py-20 md:py-32">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 opacity-20 rounded-full -mr-48 -mt-48"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 opacity-10 rounded-full -ml-48 -mb-48"></div>
+
+        <div className="container-fluid relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              Discover Artisan Treasures
+            </h1>
+            <p className="text-xl md:text-2xl text-blue-100 mb-10 leading-relaxed">
+              Connect with talented creators worldwide. Every handcrafted item has a story to tell.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/products"
+                className="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
+              >
+                Browse Products
+              </Link>
+              <Link
+                href="/sellers/become"
+                className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-all border-2 border-white"
+              >
+                Become a Seller
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section
-        className="home-section bg-bg-secondary"
-        aria-labelledby="featured-heading"
-      >
+      <section className="py-20 md:py-28 bg-gray-50">
         <div className="container-fluid">
-          <header className="mb-8 md:mb-10">
-            <h2 id="featured-heading" className="section-title text-center md:text-left mb-2">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Featured Products
             </h2>
-            <p className="text-text-secondary text-center md:text-left max-w-2xl">
-              Discover unique, handcrafted items from talented artisans around
-              the world.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore handcrafted items from talented artisans across the globe
             </p>
-          </header>
+          </div>
 
-          <div className="mb-6 max-w-md">
-            <label
-              htmlFor="seller-search"
-              className="block text-sm font-medium text-accent-header mb-2"
-            >
-              Search by seller name
-            </label>
+          {/* Search */}
+          <div className="max-w-md mx-auto mb-12">
             <input
               type="search"
               id="seller-search"
               value={sellerSearch}
               onChange={(e) => setSellerSearch(e.target.value)}
-              placeholder="e.g. Jane, Art Studio"
-              aria-describedby="seller-search-desc"
-              className="w-full px-4 py-3 border border-border-color rounded-lg bg-bg-primary text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent-header focus:border-transparent transition-shadow"
+              placeholder="Search by seller name..."
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <span id="seller-search-desc" className="sr-only">
-              Filter the list below by typing a seller or artist name.
-            </span>
           </div>
 
+          {/* Products Grid */}
           {loading ? (
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              aria-busy="true"
-              aria-live="polite"
-            >
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="bg-bg-primary rounded-xl border border-border-color overflow-hidden animate-pulse"
-                  aria-hidden
-                >
-                  <div className="h-64 bg-border-color/30" />
-                  <div className="p-6 space-y-3">
-                    <div className="h-5 bg-border-color/40 rounded w-3/4" />
-                    <div className="h-4 bg-border-color/30 rounded w-full" />
-                    <div className="h-4 bg-border-color/30 rounded w-5/6" />
-                    <div className="h-8 bg-border-color/40 rounded w-1/3 mt-4" />
-                  </div>
-                </div>
-              ))}
+            <div className="text-center py-16">
+              <div className="inline-block">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+              </div>
+              <p className="text-gray-600 mt-4">Loading products...</p>
             </div>
           ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.slice(0, 6).map((product) => (
                 <ProductCard
                   key={product._id}
@@ -158,23 +134,16 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div
-              className="text-center py-12 px-4 bg-bg-primary rounded-xl border border-border-color"
-              role="status"
-            >
-              <p className="text-text-secondary mb-4">
-                {sellerSearch
-                  ? "No products found for this seller."
-                  : "No products available yet."}
+            <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+              <p className="text-gray-600 text-lg mb-6">
+                {sellerSearch ? "No products found for this seller" : "No products available yet"}
               </p>
               {sellerSearch ? (
                 <button
-                  type="button"
                   onClick={() => setSellerSearch("")}
-                  className="text-accent-header font-semibold hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-header focus-visible:ring-offset-2 rounded py-2 px-3 min-h-[44px] inline-flex items-center"
-                  aria-label="Clear seller search"
+                  className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
                 >
-                  Clear search
+                  Clear Search
                 </button>
               ) : (
                 <Link
@@ -188,100 +157,89 @@ export default function Home() {
           )}
 
           {filteredProducts.length > 0 && (
-            <p className="text-center mt-10">
+            <div className="text-center mt-12">
               <Link
                 href="/products"
-                className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] shadow-md"
+                className="inline-block px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
               >
-                View all products
+                View All Products →
               </Link>
             </p>
           )}
         </div>
       </section>
 
-      {/* Why choose us */}
-      <section
-        className="home-section bg-bg-primary"
-        aria-labelledby="why-heading"
-      >
+      {/* Features Section */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="container-fluid">
-          <header className="text-center mb-10 md:mb-12">
-            <h2 id="why-heading" className="section-title">
-              Why choose Handcrafted Haven?
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Why Choose Haven?
             </h2>
-            <p className="section-subtitle">
-              We bring together a community of passionate creators and conscious
-              consumers.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We connect artisans with art lovers for authentic, meaningful purchases
             </p>
-          </header>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
-              <span className="text-4xl mb-4 block" aria-hidden>
-                🎨
-              </span>
-              <h3 className="text-lg font-semibold text-accent-header mb-2">
-                Unique creations
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Every piece is handcrafted with care, making each item truly
-                one-of-a-kind.
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Feature 1 */}
+            <div className="text-center p-8 rounded-xl bg-blue-50 border border-blue-100 hover:border-blue-300 transition">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                ✨
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Unique Pieces</h3>
+              <p className="text-gray-600">
+                Handcrafted by skilled artisans. Each item is one-of-a-kind with its own character.
               </p>
-            </article>
-            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
-              <span className="text-4xl mb-4 block" aria-hidden>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="text-center p-8 rounded-xl bg-purple-50 border border-purple-100 hover:border-purple-300 transition">
+              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
                 👥
-              </span>
-              <h3 className="text-lg font-semibold text-accent-header mb-2">
-                Support artisans
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Connect directly with creators and support their craft and
-                livelihood.
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Direct Connection</h3>
+              <p className="text-gray-600">
+                Support creators directly. Know the story behind every piece you purchase.
               </p>
-            </article>
-            <article className="bg-bg-secondary rounded-xl p-6 md:p-8 text-center border border-border-color hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-accent-header focus-within:ring-offset-2">
-              <span className="text-4xl mb-4 block" aria-hidden>
-                🌍
-              </span>
-              <h3 className="text-lg font-semibold text-accent-header mb-2">
-                Sustainable choice
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Choose quality over quantity and contribute to sustainable
-                consumption.
+            </div>
+
+            {/* Feature 3 */}
+            <div className="text-center p-8 rounded-xl bg-green-50 border border-green-100 hover:border-green-300 transition">
+              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                🌱
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Sustainable</h3>
+              <p className="text-gray-600">
+                Quality over quantity. Support sustainable consumption and ethical production.
               </p>
             </article>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section
-        className="home-section bg-bg-secondary border-t border-border-color"
-        aria-labelledby="cta-heading"
-      >
+      {/* CTA Section */}
+      <section className="py-20 md:py-28 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container-fluid text-center">
-          <h2 id="cta-heading" className="section-title mb-2">
-            Ready to start your journey?
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Explore or Create?
           </h2>
-          <p className="section-subtitle mb-8">
-            Join our community of artisans and art lovers. Whether you&apos;re
-            looking to buy or sell, Handcrafted Haven is your destination.
+          <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
+            Join thousands of art lovers and creators on Haven
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/sellers/become"
-              className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] shadow-md w-full sm:w-auto min-w-[200px]"
+              href="/login"
+              className="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition"
             >
-              Become a seller
+              Sign In
             </Link>
             <Link
-              href="/products"
-              className="btn-secondary text-accent-header border-accent-header hover:bg-accent-header hover:text-white w-full sm:w-auto min-w-[200px]"
+              href="/signup"
+              className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition border-2 border-white"
             >
-              Explore products
+              Get Started
             </Link>
           </div>
         </div>

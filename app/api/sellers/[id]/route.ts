@@ -11,10 +11,19 @@ export async function GET(
   try {
     const { id } = await params;
     const db = await getDatabase();
-    const seller = await db
-      .collection<Seller>('sellers')
-      .findOne({ _id: new ObjectId(id) });
-
+    
+    let sellerId;
+    try {
+      sellerId = new ObjectId(id);
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid seller ID' },
+        { status: 400 }
+      );
+    }
+    
+    const seller = await db.collection('sellers').findOne({ _id: sellerId });
+    
     if (!seller) {
       return NextResponse.json(
         { error: 'Seller not found' },

@@ -1,32 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  /* Project Colors - WCAG AA compliant contrast ratios */
-  --text-primary: #0A0908;
-  --text-background: #F2F4F3;
-  --accent-header: #22333B;
-  --border-accent: #A9927D;
-  --border-accent-dark: #5E503F;
-
-  /* Additional System Colors */
+  /* Modern Professional Color Palette */
+  --primary: #3B82F6;
+  --primary-dark: #1E40AF;
+  --primary-light: #DBEAFE;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
   --bg-primary: #FFFFFF;
   --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
   --border-color: #E5E7EB;
-  --text-secondary: #6B7280;
+  --border-dark: #D1D5DB;
   --success: #10B981;
-  --pending: #F59E0B;
-  --error: #DC2626;
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --accent: #8B5CF6;
 
-  /* Spacing System (8px base) */
+  /* Spacing System */
   --space-xs: 4px;
   --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 40px;
-  --space-3xl: 48px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+  --space-4xl: 48px;
 }
 
 * {
@@ -36,8 +36,8 @@
 }
 
 body {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: var(--text-background);
+  font-family: 'JetBrains Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
   font-size: 16px;
@@ -49,7 +49,7 @@ h1 {
   font-size: 32px;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--accent-header);
+  color: var(--text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
 }
@@ -58,7 +58,7 @@ h2 {
   font-size: 24px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--accent-header);
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
 }
@@ -67,7 +67,7 @@ h3 {
   font-size: 20px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--accent-header);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -75,7 +75,7 @@ h4, h5, h6 {
   font-size: 18px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--accent-header);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -205,7 +205,7 @@ main {
 }
 
 .interactive:focus {
-  outline: 2px solid var(--accent-header);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -253,7 +253,7 @@ button, a, input, select, textarea {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--accent-header);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -284,4 +284,333 @@ select {
 
 textarea {
   min-height: 100px;
+  padding: 12px 16px;
+}
+
+/* Consistent border radius across components */
+button,
+input,
+select,
+textarea,
+.card {
+  border-radius: 8px;
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.rounded-xl {
+  border-radius: 12px;
+}
+
+.rounded-2xl {
+  border-radius: 16px;
+}
+
+/* Consistent shadow system */
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Consistent spacing between form elements */
+form > div + div {
+  margin-top: 1.5rem;
+}
+
+form .space-y-5 > * + * {
+  margin-top: 1.25rem;
+}
+
+form .space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Label spacing consistency - Top-aligned labels for better UX */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* Ensure labels are associated with inputs for accessibility */
+label[for] {
+  cursor: pointer;
+}
+
+/* Link spacing and hover states - Improved contrast and visibility */
+a {
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease, text-decoration 0.2s ease;
+  color: var(--primary);
+}
+
+a:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+a.interactive:hover {
+  text-decoration: none;
+}
+
+/* Ensure links meet color contrast requirements */
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Consistent button padding */
+button[type="submit"],
+button.primary,
+a.button {
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  button[type="submit"],
+  button.primary,
+  a.button {
+    padding: 10px 20px;
+    min-height: 40px;
+  }
+}
+
+/* Ensure all buttons meet touch target requirements */
+button:not([class*="min-h"]):not([class*="min-w"]) {
+  min-height: 44px;
+}
+
+@media (min-width: 768px) {
+  button:not([class*="min-h"]):not([class*="min-w"]) {
+    min-height: 40px;
+  }
+}
+
+/* Error state styling */
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown) {
+  border-color: #dc2626;
+}
+
+
+/* Disabled state styling */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #1f1f1f;
+    --text-primary: #f2f4f3;
+    --text-secondary: #9ca3af;
+  }
+}
+
+/* Skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    #f0f0f0 0%,
+    #e0e0e0 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Bento grid layout utilities */
+.bento-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Progressive disclosure animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--primary);
+  }
+  
+  button {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Logo sizing and professional appearance - Modern Responsive Standards */
+img[alt*="Logo"],
+img[alt*="logo"] {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: auto;
+}
+
+/* Header Logo - Horizontal Layout (250-400px width, 20-30px height) */
+.header-logo {
+  height: 30px; /* Modern tight height within 64px navbar */
+  width: auto;
+  max-width: 250px;
+}
+
+@media (min-width: 640px) {
+  .header-logo {
+    height: 32px;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-logo {
+    height: 36px;
+    max-width: 350px;
+  }
+}
+
+/* Footer Logo - Smaller horizontal variant */
+.footer-logo {
+  height: 24px;
+  width: auto;
+  max-width: 150px;
+}
+
+@media (min-width: 640px) {
+  .footer-logo {
+    height: 28px;
+    max-width: 200px;
+  }
+}
+
+/* Dashboard Sidebar Logo - Square/Vertical Layout (160x160px equivalent) */
+.dashboard-logo {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-logo {
+    height: 48px;
+    max-width: 140px;
+  }
+}
+
+/* Utility logo sizes */
+.logo-favicon {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-square {
+  width: 160px;
+  height: 160px;
+}
+
+/* Ensure logos don't distort */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-container img {
+  object-fit: contain;
+  object-position: center;
 }
