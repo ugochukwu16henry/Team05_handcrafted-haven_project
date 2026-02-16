@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  /* Handcrafted Haven color palette */
+  /* App color palette
+   * 0A0908 Text (primary)
+   * F2F4F3 Text/Background (light bg)
+   * 22333B Accent / headers
+   * A9927D Borders / accents
+   * 5E503F Borders / accents (dark)
+   */
   --text-primary: #0A0908;
   --text-background: #F2F4F3;
   --accent-header: #22333B;
@@ -10,7 +16,7 @@
   --bg-primary: #FFFFFF;
   --bg-secondary: #F2F4F3;
   --text-secondary: #6B7280;
-  --border-color: #d4c4b5;
+  --border-color: #A9927D;
   --success: #10B981;
   --error: #EF4444;
   --warning: #F59E0B;
@@ -128,8 +134,8 @@ main {
 
 .auth-form-card .auth-input {
   background: #ffffff !important;
-  color: #111827 !important;
-  border: 2px solid #9ca3af !important;
+  color: var(--text-primary) !important;
+  border: 2px solid var(--border-accent) !important;
   font-size: 16px !important; /* prevents zoom on iOS */
 }
 
@@ -144,7 +150,7 @@ main {
 }
 
 .auth-form-card label {
-  color: #1f2937 !important;
+  color: var(--accent-header) !important;
 }
 
 .home-section {

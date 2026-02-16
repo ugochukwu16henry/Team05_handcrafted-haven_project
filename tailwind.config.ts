@@ -12,6 +12,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
+      /* App color palette: 0A0908 Text | F2F4F3 Text/Bg | 22333B Accent | A9927D 5E503F Borders */
       colors: {
         'text-primary': '#0A0908',
         'text-background': '#F2F4F3',
@@ -21,7 +22,7 @@ const config: Config = {
         'bg-primary': '#FFFFFF',
         'bg-secondary': '#F2F4F3',
         'text-secondary': '#6B7280',
-        'border-color': '#d4c4b5',
+        'border-color': '#A9927D',
         'error': '#EF4444',
         'success': '#10B981',
         'warning': '#F59E0B',
