@@ -4,19 +4,40 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+interface ProductItem {
+  _id: string;
+  title: string;
+  description?: string;
+  price: number;
+  sellerId?: string;
+  artistName?: string;
+  category?: string;
+  imageUrl?: string;
+  createdAt?: string;
+}
+
+interface SellerItem {
+  _id: string;
+  name: string;
+  email: string;
+  businessName?: string;
+  createdAt?: string;
+}
+
 interface DashboardStats {
-  totalSales: number;
-  pendingOrders: number;
   totalProducts: number;
   totalSellers: number;
-  revenueTrend: number;
-  orderTrend: number;
+  catalogValue: number;
+  newListingsCount: number;
 }
 
 export default function DashboardPage() {
   const router = useRouter();
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [sellers, setSellers] = useState<SellerItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleSignOut = () => {
@@ -26,34 +47,62 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    // Check for saved dark mode preference
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setIsDarkMode(savedDarkMode);
     if (savedDarkMode) {
       document.documentElement.classList.add('dark');
     }
+  }, []);
 
-    // Simulate data fetching with skeleton loading
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
+      setError(null);
+      try {
+        const [productsRes, sellersRes] = await Promise.all([
+          fetch('/api/products'),
+          fetch('/api/sellers'),
+        ]);
 
-      setStats({
-        totalSales: 4890.80,
-        pendingOrders: 5430.03,
-        totalProducts: 64,
-        totalSellers: 6,
-        revenueTrend: 12.5,
-        orderTrend: 8.3,
-      });
-      setLoading(false);
+        if (!productsRes.ok) throw new Error('Failed to load products');
+        if (!sellersRes.ok) throw new Error('Failed to load sellers');
+
+        const productsData = await productsRes.json();
+        const productsList: ProductItem[] = Array.isArray(productsData.products) ? productsData.products : [];
+        const sellersList: SellerItem[] = await sellersRes.json();
+        if (!Array.isArray(sellersList)) throw new Error('Invalid sellers data');
+
+        setProducts(productsList);
+        setSellers(sellersList);
+
+        const catalogValue = productsList.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
+        const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        const newListingsCount = productsList.filter((p) => {
+          const created = p.createdAt ? new Date(p.createdAt).getTime() : 0;
+          return created >= oneWeekAgo;
+        }).length;
+
+        setStats({
+          totalProducts: productsList.length,
+          totalSellers: sellersList.length,
+          catalogValue,
+          newListingsCount,
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard');
+        setStats({
+          totalProducts: 0,
+          totalSellers: 0,
+          catalogValue: 0,
+          newListingsCount: 0,
+        });
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
-    
-    // Real-time updates every 30 seconds
-    const interval = setInterval(fetchData, 30000);
+    const interval = setInterval(fetchData, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -139,69 +188,79 @@ export default function DashboardPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-accent-header to-border-accent bg-clip-text text-transparent">
               Dashboard
             </h1>
-            <p className="text-text-secondary">Welcome back! Here's what's happening today.</p>
+            <p className="text-text-secondary">Live overview of your marketplace.</p>
           </div>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-300 text-sm">
+              {error}
+            </div>
+          )}
           
-          {/* Inverted Pyramid Layout: Critical KPIs at Top */}
+          {/* Critical KPIs */}
           {loading ? (
             <DashboardSkeleton />
           ) : stats ? (
             <>
-              {/* Top Level: Critical KPIs (Bento Grid) */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <KPICard
-                  title="Total Sales"
-                  value={`$${stats.totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-                  trend={stats.revenueTrend}
-                  icon="💰"
-                  color="from-green-500 to-emerald-600"
-                  loading={loading}
-                />
-                <KPICard
-                  title="Pending Orders"
-                  value={`$${stats.pendingOrders.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-                  trend={stats.orderTrend}
-                  icon="⏳"
-                  color="from-amber-500 to-orange-600"
-                  loading={loading}
-                />
-                <KPICard
                   title="Total Products"
-                  value={stats.totalProducts.toString()}
-                  trend={5.2}
+                  value={stats.totalProducts.toLocaleString()}
+                  subtitle="Listings"
                   icon="📦"
-                  color="from-blue-500 to-cyan-600"
+                  color="from-accent-header to-border-accent-dark"
                   loading={loading}
                 />
                 <KPICard
                   title="Active Sellers"
-                  value={stats.totalSellers.toString()}
-                  trend={2.1}
+                  value={stats.totalSellers.toLocaleString()}
+                  subtitle="Registered"
                   icon="👥"
-                  color="from-purple-500 to-pink-600"
+                  color="from-border-accent to-border-accent-dark"
+                  loading={loading}
+                />
+                <KPICard
+                  title="Catalog Value"
+                  value={`$${stats.catalogValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                  subtitle="Sum of listing prices"
+                  icon="💰"
+                  color="from-green-600 to-emerald-700"
+                  loading={loading}
+                />
+                <KPICard
+                  title="New This Week"
+                  value={stats.newListingsCount.toLocaleString()}
+                  subtitle="Products added"
+                  icon="✨"
+                  color="from-amber-500 to-orange-600"
                   loading={loading}
                 />
               </div>
 
-              {/* Middle Level: Trends & Charts (Bento Grid) */}
+              {/* Middle: Summary & Quick Actions */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-                {/* Revenue Chart - Takes 2 columns */}
                 <div className="lg:col-span-2">
                   <GlassCard>
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-xl font-semibold text-accent-header">Revenue Trend</h2>
-                      <select className="text-sm border border-border-color rounded-lg px-3 py-1.5 bg-bg-primary focus:outline-none focus:border-accent-header">
-                        <option>Last 7 days</option>
-                        <option>Last 30 days</option>
-                        <option>Last 90 days</option>
-                      </select>
-                    </div>
-                    <div className="h-64 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-6xl mb-4">📈</div>
-                        <p className="text-text-secondary">Chart visualization</p>
-                        <p className="text-xs text-text-secondary mt-2">Real-time data updates every 30s</p>
-                      </div>
+                    <h2 className="text-xl font-semibold text-accent-header mb-4">Catalog Summary</h2>
+                    <div className="h-64 flex flex-col justify-center">
+                      {products.length === 0 ? (
+                        <p className="text-text-secondary text-center">No products yet. Add your first listing.</p>
+                      ) : (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          {[...new Set(products.map((p) => p.category).filter(Boolean))].slice(0, 6).map((cat) => (
+                            <div
+                              key={cat}
+                              className="p-3 rounded-xl bg-bg-secondary/50 dark:bg-[#2a2a2a]/50 border border-border-color/20"
+                            >
+                              <p className="text-xs text-text-secondary uppercase tracking-wide">{cat || 'Uncategorized'}</p>
+                              <p className="text-lg font-bold text-accent-header">
+                                {products.filter((p) => (p.category || '') === (cat || '')).length}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <p className="text-xs text-text-secondary mt-4">Data refreshes every minute</p>
                     </div>
                   </GlassCard>
                 </div>
@@ -225,13 +284,13 @@ export default function DashboardPage() {
                       </Link>
                       <Link
                         href="/sellers/become"
-                        className="block p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-200 group"
+                        className="block p-4 rounded-xl bg-gradient-to-r from-border-accent/10 to-border-accent-dark/10 hover:from-border-accent/20 hover:to-border-accent-dark/20 transition-all duration-200 group"
                       >
                         <div className="flex items-center gap-3">
                           <span className="text-2xl group-hover:scale-110 transition-transform duration-200">👤</span>
                           <div>
-                            <div className="font-semibold text-accent-header">Invite Seller</div>
-                            <div className="text-xs text-text-secondary">Onboard new artisan</div>
+                            <div className="font-semibold text-accent-header">Become a Seller</div>
+                            <div className="text-xs text-text-secondary">Register as artisan</div>
                           </div>
                         </div>
                       </Link>
@@ -240,51 +299,63 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Bottom Level: Granular Details */}
+              {/* Recent Products & Activity */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {/* Latest Orders */}
                 <GlassCard>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-accent-header">Recent Orders</h2>
-                    <Link href="/dashboard/orders" className="text-sm text-accent-header hover:underline">
-                      View all →
+                    <h2 className="text-xl font-semibold text-accent-header">Recent Products</h2>
+                    <Link href="/dashboard/products" className="text-sm text-accent-header hover:underline">
+                      Manage all →
                     </Link>
                   </div>
                   <div className="space-y-3">
-                    {[1, 2, 3, 4].map((order) => (
-                      <OrderItem key={order} orderNumber={order} />
-                    ))}
+                    {products
+                      .slice()
+                      .sort((a, b) => (new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()))
+                      .slice(0, 5)
+                      .map((product) => (
+                        <Link
+                          key={product._id}
+                          href={`/products/${product._id}`}
+                          className="flex items-center justify-between p-4 rounded-xl bg-bg-secondary/50 dark:bg-[#2a2a2a]/50 hover:bg-bg-secondary dark:hover:bg-[#2a2a2a] transition-all duration-200 group border border-border-color/20"
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="font-semibold text-accent-header truncate">{product.title}</p>
+                            <p className="text-xs text-text-secondary">
+                              {product.artistName || '—'} · {product.category || 'Uncategorized'}
+                            </p>
+                          </div>
+                          <p className="text-sm font-bold text-accent-header shrink-0 ml-2">
+                            ${Number(product.price).toFixed(2)}
+                          </p>
+                        </Link>
+                      ))}
+                    {products.length === 0 && (
+                      <p className="text-text-secondary text-center py-6 text-sm">No products yet.</p>
+                    )}
                   </div>
                 </GlassCard>
 
-                {/* Activity Feed */}
                 <GlassCard>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-accent-header">Activity Feed</h2>
-                    <button className="text-sm text-text-secondary hover:text-accent-header">
-                      Filter
-                    </button>
+                    <h2 className="text-xl font-semibold text-accent-header">Recent Activity</h2>
                   </div>
                   <div className="space-y-3">
-                    {[
-                      { icon: '✅', text: 'New product added', time: '2m ago' },
-                      { icon: '💰', text: 'Order #1234 completed', time: '15m ago' },
-                      { icon: '👤', text: 'New seller joined', time: '1h ago' },
-                      { icon: '📦', text: 'Product updated', time: '2h ago' },
-                    ].map((activity, idx) => (
+                    {getRecentActivity(products, sellers).map((activity, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-secondary/50 transition-colors duration-200 group"
+                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-bg-secondary/50 transition-colors duration-200"
                       >
-                        <span className="text-xl group-hover:scale-110 transition-transform duration-200">
-                          {activity.icon}
-                        </span>
-                        <div className="flex-1">
+                        <span className="text-xl">{activity.icon}</span>
+                        <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-accent-header">{activity.text}</p>
                           <p className="text-xs text-text-secondary">{activity.time}</p>
                         </div>
                       </div>
                     ))}
+                    {products.length === 0 && sellers.length === 0 && (
+                      <p className="text-text-secondary text-center py-6 text-sm">No recent activity.</p>
+                    )}
                   </div>
                 </GlassCard>
               </div>
@@ -294,6 +365,34 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+}
+
+function formatRelativeTime(dateStr: string): string {
+  const d = new Date(dateStr).getTime();
+  const now = Date.now();
+  const diff = now - d;
+  if (diff < 60000) return 'Just now';
+  if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+  if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+  if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+  return new Date(dateStr).toLocaleDateString();
+}
+
+function getRecentActivity(
+  products: ProductItem[],
+  sellers: SellerItem[]
+): { icon: string; text: string; time: string }[] {
+  const list: { icon: string; text: string; time: string; ts: number }[] = [];
+  products.forEach((p) => {
+    const ts = p.createdAt ? new Date(p.createdAt).getTime() : 0;
+    if (ts) list.push({ icon: '📦', text: `"${p.title}" listed`, time: formatRelativeTime(p.createdAt!), ts });
+  });
+  sellers.forEach((s) => {
+    const ts = s.createdAt ? new Date(s.createdAt).getTime() : 0;
+    if (ts) list.push({ icon: '👤', text: `${s.name} joined as seller`, time: formatRelativeTime(s.createdAt!), ts });
+  });
+  list.sort((a, b) => b.ts - a.ts);
+  return list.slice(0, 5).map(({ icon, text, time }) => ({ icon, text, time }));
 }
 
 function GlassCard({
@@ -311,18 +410,18 @@ function GlassCard({
   );
 }
 
-// KPI Card Component with Microinteractions
-function KPICard({ 
-  title, 
-  value, 
-  trend, 
-  icon, 
+// KPI Card Component
+function KPICard({
+  title,
+  value,
+  subtitle,
+  icon,
   color,
-  loading 
-}: { 
-  title: string; 
-  value: string; 
-  trend: number; 
+  loading,
+}: {
+  title: string;
+  value: string;
+  subtitle?: string;
   icon: string;
   color: string;
   loading: boolean;
@@ -333,9 +432,9 @@ function KPICard({
     return (
       <GlassCard>
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-24 mb-4"></div>
-          <div className="h-8 bg-gray-200 rounded w-32 mb-2"></div>
-          <div className="h-3 bg-gray-200 rounded w-20"></div>
+          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-4"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-2"></div>
+          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
         </div>
       </GlassCard>
     );
@@ -347,60 +446,18 @@ function KPICard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <GlassCard className="">
+      <GlassCard>
         <div className="flex items-start justify-between mb-3">
-          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300 text-white`}>
             {icon}
           </div>
-          <div className={`text-sm font-semibold flex items-center gap-1 ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-            <span>{trend >= 0 ? '↑' : '↓'}</span>
-            <span>{Math.abs(trend)}%</span>
-          </div>
         </div>
-      <p className="text-sm text-text-secondary mb-2">{title}</p>
-      <p className={`text-3xl font-bold text-accent-header transition-all duration-300 ${isHovered ? 'scale-105' : ''}`}>
-        {value}
-      </p>
-      <div className="mt-3 h-1 bg-gray-200 rounded-full overflow-hidden">
-        <div 
-          className={`h-full bg-gradient-to-r ${color} transition-all duration-500`}
-          style={{ width: `${Math.min(Math.abs(trend) * 10, 100)}%` }}
-        ></div>
-      </div>
+        <p className="text-sm text-text-secondary mb-1">{title}</p>
+        <p className={`text-2xl md:text-3xl font-bold text-accent-header transition-all duration-300 ${isHovered ? 'scale-105' : ''}`}>
+          {value}
+        </p>
+        {subtitle && <p className="text-xs text-text-secondary mt-1">{subtitle}</p>}
       </GlassCard>
-    </div>
-  );
-}
-
-// Order Item Component with Progressive Disclosure
-function OrderItem({ orderNumber }: { orderNumber: number }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <div 
-      className="p-4 rounded-xl bg-bg-secondary/50 dark:bg-[#2a2a2a]/50 hover:bg-bg-secondary dark:hover:bg-[#2a2a2a] transition-all duration-200 cursor-pointer group"
-      onClick={() => setIsExpanded(!isExpanded)}
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-border-accent to-border-accent-dark rounded-full flex items-center justify-center text-white font-semibold group-hover:scale-110 transition-transform duration-200">
-            {orderNumber}
-          </div>
-          <div>
-            <p className="font-semibold text-accent-header">Customer {orderNumber}</p>
-            <p className="text-xs text-text-secondary">customer{orderNumber}@email.com</p>
-          </div>
-        </div>
-        <div className="text-right">
-          <p className="font-bold text-accent-header">${(300 + orderNumber * 50).toFixed(2)}</p>
-          <p className="text-xs text-green-600">Completed</p>
-        </div>
-      </div>
-      {isExpanded && (
-        <div className="mt-3 pt-3 border-t border-border-color/20 animate-in slide-in-from-top">
-          <p className="text-xs text-text-secondary">Order details and timeline...</p>
-        </div>
-      )}
     </div>
   );
 }
