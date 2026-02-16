@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 export interface User {
   _id?: string;
   email: string;
@@ -8,8 +9,8 @@ export interface User {
 }
 
 export interface Seller {
-  _id?: string;
-  userId?: string; // Link to User if needed
+  _id?: ObjectId;
+  userId?: ObjectId; // Link to User if needed
   name: string;
   email: string;
   businessName?: string;

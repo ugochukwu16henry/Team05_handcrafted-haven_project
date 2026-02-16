@@ -30,8 +30,15 @@ export async function GET(
         { status: 404 }
       );
     }
-    
-    return NextResponse.json(seller, { status: 200 });
+
+    // Convert ObjectIds to strings for frontend
+    const sellerJson = {
+      ...seller,
+      _id: seller._id?.toString(),
+      userId: seller.userId?.toString(),
+    };
+
+    return NextResponse.json(sellerJson, { status: 200 });
   } catch (error) {
     console.error('Error fetching seller:', error);
     return NextResponse.json(

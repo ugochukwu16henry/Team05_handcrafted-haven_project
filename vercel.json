@@ -1,0 +1,7 @@
+{
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "pnpm run build",
+  "env": {
+    "NEXT_PUBLIC_STATIC_EXPORT": "false"
+  }
+}

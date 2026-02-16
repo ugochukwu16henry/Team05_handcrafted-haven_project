@@ -138,13 +138,20 @@ export default function Home() {
               <p className="text-gray-600 text-lg mb-6">
                 {sellerSearch ? "No products found for this seller" : "No products available yet"}
               </p>
-              {sellerSearch && (
+              {sellerSearch ? (
                 <button
                   onClick={() => setSellerSearch("")}
                   className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
                 >
                   Clear Search
                 </button>
+              ) : (
+                <Link
+                  href="/sellers/become"
+                  className="btn-primary bg-accent-header text-white hover:bg-[#1a282d] inline-flex shadow-md"
+                >
+                  Become a seller
+                </Link>
               )}
             </div>
           )}
@@ -157,7 +164,7 @@ export default function Home() {
               >
                 View All Products →
               </Link>
-            </div>
+            </p>
           )}
         </div>
       </section>
@@ -206,7 +213,7 @@ export default function Home() {
               <p className="text-gray-600">
                 Quality over quantity. Support sustainable consumption and ethical production.
               </p>
-            </div>
+            </article>
           </div>
         </div>
       </section>
