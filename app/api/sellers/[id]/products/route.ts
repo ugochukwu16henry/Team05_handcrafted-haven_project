@@ -18,9 +18,10 @@ export async function GET(
     }
 
     const db = await getDatabase();
+    const sellerObjectId = new ObjectId(sellerId);
     const products = await db
       .collection<Product>('products')
-      .find({ sellerId: new ObjectId(sellerId) })
+      .find({ sellerId: sellerObjectId })
       .sort({ createdAt: -1 })
       .toArray();
 
