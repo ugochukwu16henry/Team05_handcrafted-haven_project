@@ -2,9 +2,9 @@
   "name": "team05_handcrafted-heaven_project",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@9.14.2",
   "engines": {
-    "node": ">=18.17.0"
+    "node": "20.x"
   },
   "scripts": {
     "dev": "node scripts/run-next.js dev",
@@ -19,7 +19,7 @@
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "zod": "^4.3.6"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
