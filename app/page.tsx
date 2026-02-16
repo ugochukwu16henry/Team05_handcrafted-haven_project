@@ -164,7 +164,7 @@ export default function Home() {
               >
                 View All Products →
               </Link>
-            </p>
+            </div>
           )}
         </div>
       </section>
@@ -213,7 +213,7 @@ export default function Home() {
               <p className="text-gray-600">
                 Quality over quantity. Support sustainable consumption and ethical production.
               </p>
-            </article>
+            </div>
           </div>
         </div>
       </section>
