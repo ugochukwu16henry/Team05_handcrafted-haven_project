@@ -324,20 +324,21 @@ function KPICard({
   }
 
   return (
-    <GlassCard
+    <div
       className="group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-          {icon}
+      <GlassCard className="">
+        <div className="flex items-start justify-between mb-3">
+          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+            {icon}
+          </div>
+          <div className={`text-sm font-semibold flex items-center gap-1 ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <span>{trend >= 0 ? '↑' : '↓'}</span>
+            <span>{Math.abs(trend)}%</span>
+          </div>
         </div>
-        <div className={`text-sm font-semibold flex items-center gap-1 ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-          <span>{trend >= 0 ? '↑' : '↓'}</span>
-          <span>{Math.abs(trend)}%</span>
-        </div>
-      </div>
       <p className="text-sm text-text-secondary mb-2">{title}</p>
       <p className={`text-3xl font-bold text-accent-header transition-all duration-300 ${isHovered ? 'scale-105' : ''}`}>
         {value}
@@ -348,7 +349,8 @@ function KPICard({
           style={{ width: `${Math.min(Math.abs(trend) * 10, 100)}%` }}
         ></div>
       </div>
-    </GlassCard>
+      </GlassCard>
+    </div>
   );
 }
 
