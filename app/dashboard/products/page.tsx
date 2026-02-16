@@ -49,6 +49,12 @@ export default function DashboardProductsPage() {
     }
   };
 
+  const handleSignOut = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('sellerId');
+    router.push('/login');
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -137,7 +143,11 @@ export default function DashboardProductsPage() {
             </nav>
             
             <div className="pt-4 border-t border-border-color/20">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]"
+              >
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface DashboardStats {
   totalSales: number;
@@ -13,9 +14,16 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleSignOut = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('sellerId');
+    router.push('/login');
+  };
 
   useEffect(() => {
     // Check for saved dark mode preference
@@ -112,7 +120,11 @@ export default function DashboardPage() {
                 <span className="text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
                 <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
               </button>
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]"
+              >
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>

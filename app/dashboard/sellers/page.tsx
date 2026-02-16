@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Seller {
   _id: string;
@@ -15,9 +16,16 @@ interface Seller {
 }
 
 export default function DashboardSellersPage() {
+  const router = useRouter();
   const [sellers, setSellers] = useState<Seller[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSignOut = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('sellerId');
+    router.push('/login');
+  };
 
   useEffect(() => {
     fetchSellers();
@@ -76,7 +84,11 @@ export default function DashboardSellersPage() {
             </nav>
             
             <div className="pt-4 border-t border-border-color/20">
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]">
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 interactive transition-all duration-200 text-red-600 dark:text-red-400 min-h-[44px]"
+              >
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
