@@ -11,17 +11,29 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const validation = productSchema.safeParse(body);
-    console.log(validation);
-
     if (!validation.success) {
-      return NextResponse.json(validation.error.format(), { status: 400 });
+      const firstError = validation.error.flatten().fieldErrors;
+      const message = Object.values(firstError).flat().join(" ") || "Validation failed";
+      return NextResponse.json(
+        { error: message, details: validation.error.flatten() },
+        { status: 400 },
+      );
     }
 
-    const product = await db.collection("products").insertOne({
-      ...body,
+    const data = validation.data;
+    const doc = {
+      title: data.title,
+      description: data.description,
+      price: Number(data.price),
+      sellerId: data.sellerId,
+      artistName: data.artistName,
+      ...(data.category ? { category: data.category } : {}),
+      ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    };
+
+    const product = await db.collection("products").insertOne(doc);
 
     return NextResponse.json(
       {
