@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       title: data.title,
       description: data.description,
       price: Number(data.price),
-      sellerId: data.sellerId,
+      sellerId: new ObjectId(data.sellerId),
       artistName: data.artistName,
       ...(data.category ? { category: data.category } : {}),
       ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
