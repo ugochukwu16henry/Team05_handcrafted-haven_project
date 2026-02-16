@@ -47,3 +47,41 @@ export async function GET(
     );
   }
 }
+
+// DELETE seller (delete account)
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const db = await getDatabase();
+
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json(
+        { error: 'Invalid seller ID' },
+        { status: 400 }
+      );
+    }
+
+    const result = await db.collection('sellers').deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { error: 'Seller not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: 'Account deleted' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error deleting seller:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete account' },
+      { status: 500 }
+    );
+  }
+}

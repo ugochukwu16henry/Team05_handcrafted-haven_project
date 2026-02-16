@@ -85,7 +85,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: true, products }, { status: 200 });
+    const productsJson = products.map((p: Record<string, unknown>) => ({
+      ...p,
+      _id: (p._id as { toString?: () => string })?.toString?.() ?? p._id,
+      sellerId: typeof p.sellerId === "string" ? p.sellerId : (p.sellerId as { toString?: () => string })?.toString?.() ?? p.sellerId,
+      createdAt: (p.createdAt as Date)?.toISOString?.() ?? p.createdAt,
+      updatedAt: (p.updatedAt as Date)?.toISOString?.() ?? p.updatedAt,
+    }));
+
+    return NextResponse.json({ success: true, products: productsJson }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/products:", error);
     const message =

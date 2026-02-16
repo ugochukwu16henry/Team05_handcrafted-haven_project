@@ -56,8 +56,9 @@ export default function BecomeSellerPage() {
         throw new Error(data.error || 'Failed to create seller profile');
       }
 
+      if (data._id) localStorage.setItem('sellerId', data._id);
       setSuccess(true);
-      setTimeout(() => router.push('/sellers'), 2000);
+      setTimeout(() => router.push('/dashboard/products'), 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
@@ -79,7 +80,7 @@ export default function BecomeSellerPage() {
           </div>
           <h1 className="text-2xl font-bold text-accent-header mb-2">Application received</h1>
           <p className="text-text-secondary mb-6">
-            Your seller profile has been created. Redirecting you to sellers…
+            Your seller profile has been created. Redirecting you to add your first product…
           </p>
           <div className="flex justify-center" aria-hidden>
             <svg className="animate-spin h-6 w-6 text-accent-header" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

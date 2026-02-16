@@ -1,10 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+
+const MAX_IMAGE_SIZE_MB = 3;
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
+
+const isValidObjectId = (id: string) => /^[a-fA-F0-9]{24}$/.test((id ?? '').trim());
 
 export default function DashboardProductsPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [sellerId, setSellerId] = useState('');
   const [formData, setFormData] = useState({
     title: '',
@@ -18,22 +24,15 @@ export default function DashboardProductsPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
+  const [imageError, setImageError] = useState('');
 
   useEffect(() => {
-    // In a real app, you'd get the seller ID from authentication/session
-    // For now, we'll use localStorage or a query param
-    const storedSellerId = localStorage.getItem('sellerId');
-    if (storedSellerId) {
-      setSellerId(storedSellerId);
-      fetchSellerProducts(storedSellerId);
-    } else {
-      // Prompt for seller ID if not set (for demo purposes)
-      const id = prompt('Enter your Seller ID:');
-      if (id) {
-        localStorage.setItem('sellerId', id);
-        setSellerId(id);
-        fetchSellerProducts(id);
-      }
+    const stored = localStorage.getItem('sellerId')?.trim() ?? '';
+    if (isValidObjectId(stored)) {
+      setSellerId(stored);
+      fetchSellerProducts(stored);
+    } else if (stored) {
+      localStorage.removeItem('sellerId');
     }
   }, []);
 
@@ -55,22 +54,75 @@ export default function DashboardProductsPage() {
     router.push('/login');
   };
 
+  const handleDeleteAccount = async () => {
+    if (!confirm('Are you sure you want to delete your account? This cannot be undone.')) return;
+    if (!sellerId) {
+      handleSignOut();
+      return;
+    }
+    try {
+      const res = await fetch(`/api/sellers/${sellerId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to delete account');
+      }
+    } finally {
+      localStorage.removeItem('user');
+      localStorage.removeItem('sellerId');
+      router.push('/login');
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === 'imageUrl') setImageError('');
+  };
+
+  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageError('');
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setImageError('Please select an image file (e.g. JPG, PNG).');
+      return;
+    }
+    if (file.size > MAX_IMAGE_SIZE_BYTES) {
+      setImageError(`Image must be under ${MAX_IMAGE_SIZE_MB} MB.`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      setFormData((prev) => ({ ...prev, imageUrl: dataUrl }));
+    };
+    reader.onerror = () => setImageError('Failed to read image.');
+    reader.readAsDataURL(file);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const clearImage = () => {
+    setFormData((prev) => ({ ...prev, imageUrl: '' }));
+    setImageError('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!sellerId) {
-      setError('Seller ID is required. Please set it first.');
+    setError('');
+    if (!sellerId?.trim() || !isValidObjectId(sellerId)) {
+      setError('You need a Seller ID to add products. Please complete "Become a seller" first — your ID will appear in the sidebar.');
+      return;
+    }
+    const priceNum = parseFloat(String(formData.price).trim());
+    if (Number.isNaN(priceNum) || priceNum < 0) {
+      setError('Please enter a valid price (0 or greater).');
       return;
     }
 
     setIsSubmitting(true);
-    setError('');
     setSuccess(false);
 
     try {
@@ -80,9 +132,13 @@ export default function DashboardProductsPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
-          price: parseFloat(formData.price),
-          sellerId: sellerId, // Auto-filled seller ID
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          price: priceNum,
+          artistName: formData.artistName.trim(),
+          category: formData.category?.trim() || '',
+          imageUrl: formData.imageUrl?.trim() || '',
+          sellerId: sellerId.trim(),
         }),
       });
 
@@ -101,8 +157,8 @@ export default function DashboardProductsPage() {
         category: '',
         imageUrl: '',
       });
+      clearImage();
       fetchSellerProducts(sellerId);
-      
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -141,8 +197,22 @@ export default function DashboardProductsPage() {
                 <span>Sellers</span>
               </a>
             </nav>
+
+            <div className="py-4 border-t border-border-color/20">
+              {sellerId ? (
+                <div className="px-4 py-3 rounded-xl bg-accent-header/10 border border-accent-header/20">
+                  <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-1">Your Seller ID</p>
+                  <p className="text-sm font-mono text-accent-header break-all" title={sellerId}>{sellerId}</p>
+                </div>
+              ) : (
+                <a href="/sellers/become" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-accent-header/10 transition-all duration-200 text-accent-header text-sm font-medium">
+                  <span>🆔</span>
+                  <span>Get your Seller ID</span>
+                </a>
+              )}
+            </div>
             
-            <div className="pt-4 border-t border-border-color/20">
+            <div className="pt-4 border-t border-border-color/20 space-y-2">
               <button
                 type="button"
                 onClick={handleSignOut}
@@ -151,6 +221,16 @@ export default function DashboardProductsPage() {
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
+              {sellerId && (
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-100 dark:hover:bg-red-950/30 interactive transition-all duration-200 text-red-700 dark:text-red-400 min-h-[44px] text-sm"
+                >
+                  <span>🗑️</span>
+                  <span>Delete account</span>
+                </button>
+              )}
             </div>
           </div>
         </aside>
@@ -164,11 +244,23 @@ export default function DashboardProductsPage() {
             <p className="text-text-secondary">Create and manage your product listings</p>
           </div>
 
-          {sellerId && (
+          {sellerId ? (
             <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl backdrop-blur-sm">
               <p className="text-sm text-blue-700 dark:text-blue-300">
                 <strong>Seller ID:</strong> {sellerId} (auto-filled)
               </p>
+            </div>
+          ) : (
+            <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl backdrop-blur-sm">
+              <p className="text-sm text-amber-800 dark:text-amber-200 mb-2">
+                You need a Seller ID to create products. Complete &quot;Become a seller&quot; once — your ID will be saved and shown in the sidebar.
+              </p>
+              <a
+                href="/sellers/become"
+                className="inline-block px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700"
+              >
+                Become a seller →
+              </a>
             </div>
           )}
 
@@ -280,23 +372,55 @@ export default function DashboardProductsPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="imageUrl" className="block text-sm font-semibold mb-2 text-accent-header">
-                    Image URL (Optional)
+                  <label className="block text-sm font-semibold mb-2 text-accent-header">
+                    Product Image (Optional)
                   </label>
-                  <input
-                    type="url"
-                    id="imageUrl"
-                    name="imageUrl"
-                    value={formData.imageUrl}
-                    onChange={handleChange}
-                    placeholder="https://example.com/image.jpg"
-                    className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
-                  />
+                  <p className="text-xs text-text-secondary mb-2">
+                    Upload an image or paste a URL. Max {MAX_IMAGE_SIZE_MB} MB for uploads.
+                  </p>
+                  <div className="space-y-2">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageFile}
+                      className="w-full text-sm text-text-secondary file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-accent-header file:text-text-background file:font-medium file:cursor-pointer cursor-pointer"
+                    />
+                    <input
+                      type="url"
+                      id="imageUrl"
+                      name="imageUrl"
+                      value={formData.imageUrl.startsWith('http') ? formData.imageUrl : ''}
+                      onChange={handleChange}
+                      placeholder="Or paste image URL: https://..."
+                      className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                    />
+                  </div>
+                  {formData.imageUrl ? (
+                    <div className="mt-2 relative inline-block">
+                      <img
+                        src={formData.imageUrl}
+                        alt="Preview"
+                        className="h-24 w-24 object-cover rounded-lg border border-border-color"
+                      />
+                      <button
+                        type="button"
+                        onClick={clearImage}
+                        className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold hover:bg-red-600"
+                        aria-label="Remove image"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : null}
+                  {imageError && (
+                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">{imageError}</p>
+                  )}
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isSubmitting || !sellerId}
+                  disabled={isSubmitting}
                   className="w-full bg-gradient-to-r from-accent-header to-border-accent-dark text-text-background py-3.5 rounded-xl font-semibold interactive hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isSubmitting ? 'Creating...' : 'Create Product'}

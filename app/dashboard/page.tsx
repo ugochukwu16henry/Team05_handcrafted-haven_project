@@ -39,11 +39,36 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [sellerId, setSellerId] = useState<string>('');
+
+  useEffect(() => {
+    const id = localStorage.getItem('sellerId')?.trim() ?? '';
+    if (/^[a-fA-F0-9]{24}$/.test(id)) setSellerId(id);
+  }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('sellerId');
     router.push('/login');
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!confirm('Are you sure you want to delete your account? This cannot be undone.')) return;
+    if (!sellerId) {
+      handleSignOut();
+      return;
+    }
+    try {
+      const res = await fetch(`/api/sellers/${sellerId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to delete account');
+      }
+    } finally {
+      localStorage.removeItem('user');
+      localStorage.removeItem('sellerId');
+      router.push('/login');
+    }
   };
 
   useEffect(() => {
@@ -158,6 +183,24 @@ export default function DashboardPage() {
                 <span>Sellers</span>
               </Link>
             </nav>
+
+            {/* Your Seller ID */}
+            <div className="py-4 border-t border-border-color/20">
+              {sellerId ? (
+                <div className="px-4 py-3 rounded-xl bg-accent-header/10 border border-accent-header/20">
+                  <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-1">Your Seller ID</p>
+                  <p className="text-sm font-mono text-accent-header break-all" title={sellerId}>{sellerId}</p>
+                </div>
+              ) : (
+                <Link
+                  href="/sellers/become"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-accent-header/10 transition-all duration-200 text-accent-header text-sm font-medium"
+                >
+                  <span>🆔</span>
+                  <span>Get your Seller ID</span>
+                </Link>
+              )}
+            </div>
             
             {/* Theme Toggle & Sign Out */}
             <div className="space-y-2 pt-4 border-t border-border-color/20">
@@ -177,6 +220,16 @@ export default function DashboardPage() {
                 <span>🚪</span>
                 <span>Sign Out</span>
               </button>
+              {sellerId && (
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-100 dark:hover:bg-red-950/30 interactive transition-all duration-200 text-red-700 dark:text-red-400 min-h-[44px] text-sm"
+                >
+                  <span>🗑️</span>
+                  <span>Delete account</span>
+                </button>
+              )}
             </div>
           </div>
         </aside>
