@@ -2,7 +2,7 @@
   "name": "team05_handcrafted-heaven_project",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.0.0",
   "engines": {
     "node": ">=18.17.0"
   },
