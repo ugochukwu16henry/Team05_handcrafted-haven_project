@@ -60,9 +60,30 @@ export default function SignupPage() {
 
     setIsLoading(true);
     try {
-      await new Promise((r) => setTimeout(r, 800));
-      setErrors({ form: 'Sign up is not connected yet. Use the form to test validation.' });
-    } catch {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrors({ form: data.error || 'Something went wrong. Please try again.' });
+        return;
+      }
+
+      // Success! Store user info in localStorage and redirect
+      localStorage.setItem('user', JSON.stringify(data.user));
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Signup error:', error);
       setErrors({ form: 'Something went wrong. Please try again.' });
     } finally {
       setIsLoading(false);

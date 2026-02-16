@@ -54,10 +54,26 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      // Placeholder: replace with real auth
-      await new Promise((r) => setTimeout(r, 800));
-      setError('Sign in is not connected yet. Use the form to test validation.');
-    } catch {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
+
+      // Success! Store user info in localStorage and redirect
+      localStorage.setItem('user', JSON.stringify(data.user));
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Signin error:', error);
       setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
