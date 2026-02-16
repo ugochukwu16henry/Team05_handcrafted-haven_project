@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  /* Modern Professional Color Palette */
-  --primary: #3B82F6;
-  --primary-dark: #1E40AF;
-  --primary-light: #DBEAFE;
-  --text-primary: #111827;
-  --text-secondary: #6B7280;
-  --text-tertiary: #9CA3AF;
+  /* Handcrafted Haven color palette */
+  --text-primary: #0A0908;
+  --text-background: #F2F4F3;
+  --accent-header: #22333B;
+  --border-accent: #A9927D;
+  --border-accent-dark: #5E503F;
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F9FAFB;
-  --bg-tertiary: #F3F4F6;
-  --border-color: #E5E7EB;
-  --border-dark: #D1D5DB;
+  --bg-secondary: #F2F4F3;
+  --text-secondary: #6B7280;
+  --border-color: #d4c4b5;
   --success: #10B981;
   --error: #EF4444;
   --warning: #F59E0B;
-  --accent: #8B5CF6;
+  --primary: #22333B;
+  --primary-dark: #1a282d;
+  --primary-light: #e8eaeb;
 
   /* Spacing System */
   --space-xs: 4px;
