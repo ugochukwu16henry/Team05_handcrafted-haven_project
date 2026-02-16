@@ -118,6 +118,35 @@ main {
   outline-offset: 2px;
 }
 
+/* Auth forms: high contrast for mobile visibility */
+.auth-form-card {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.auth-form-card .auth-input {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 2px solid #9ca3af !important;
+  font-size: 16px !important; /* prevents zoom on iOS */
+}
+
+.auth-form-card .auth-input::placeholder {
+  color: #6b7280 !important;
+}
+
+.auth-form-card .auth-input:focus {
+  border-color: var(--accent-header) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 51, 59, 0.2);
+}
+
+.auth-form-card label {
+  color: #1f2937 !important;
+}
+
 .home-section {
   padding-top: var(--space-3xl);
   padding-bottom: var(--space-3xl);

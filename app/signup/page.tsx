@@ -92,10 +92,10 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <div className="bg-white rounded-[10px] shadow-lg p-6 sm:p-8 transition-shadow duration-200">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-accent-header mb-1">Create Your Account</h1>
-          <p className="text-sm text-text-secondary">Start your journey with Handcrafted Haven</p>
+      <div className="auth-form-card rounded-[10px] p-5 sm:p-8 transition-shadow duration-200 w-full max-w-[100%]">
+        <div className="mb-5 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-accent-header mb-1">Create Your Account</h1>
+          <p className="text-sm text-gray-600">Start your journey with Handcrafted Haven</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
@@ -118,8 +118,8 @@ export default function SignupPage() {
               placeholder="John Doe"
               autoComplete="name"
               aria-invalid={!!errors.name}
-              className={`w-full px-[14px] py-3 border rounded-md bg-white text-text-primary placeholder:text-text-secondary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-header focus:ring-offset-0 ${
-                errors.name ? 'border-red-500' : 'border-border-color'
+              className={`auth-input w-full px-4 py-3.5 rounded-lg transition-colors duration-200 ${
+                errors.name ? '!border-red-500' : ''
               }`}
             />
             {errors.name && (
@@ -140,8 +140,8 @@ export default function SignupPage() {
               placeholder="you@example.com"
               autoComplete="email"
               aria-invalid={!!errors.email}
-              className={`w-full px-[14px] py-3 border rounded-md bg-white text-text-primary placeholder:text-text-secondary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-header focus:ring-offset-0 ${
-                errors.email ? 'border-red-500' : 'border-border-color'
+              className={`auth-input w-full px-4 py-3.5 rounded-lg transition-colors duration-200 ${
+                errors.email ? '!border-red-500' : ''
               }`}
             />
             {errors.email && (
@@ -163,8 +163,8 @@ export default function SignupPage() {
                 placeholder="Create a password (min 8 characters)"
                 autoComplete="new-password"
                 aria-invalid={!!errors.password}
-                className={`w-full px-[14px] py-3 pr-12 border rounded-md bg-white text-text-primary placeholder:text-text-secondary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-header focus:ring-offset-0 ${
-                  errors.password ? 'border-red-500' : 'border-border-color'
+                className={`auth-input w-full px-4 py-3.5 pr-12 rounded-lg transition-colors duration-200 ${
+                  errors.password ? '!border-red-500' : ''
                 }`}
               />
               <button
@@ -199,8 +199,8 @@ export default function SignupPage() {
                 placeholder="Confirm your password"
                 autoComplete="new-password"
                 aria-invalid={!!errors.confirmPassword}
-                className={`w-full px-[14px] py-3 pr-12 border rounded-md bg-white text-text-primary placeholder:text-text-secondary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-header focus:ring-offset-0 ${
-                  errors.confirmPassword ? 'border-red-500' : 'border-border-color'
+                className={`auth-input w-full px-4 py-3.5 pr-12 rounded-lg transition-colors duration-200 ${
+                  errors.confirmPassword ? '!border-red-500' : ''
                 }`}
               />
               <button
