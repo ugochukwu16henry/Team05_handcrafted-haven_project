@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '../../../lib/mongodb';
 import { Product } from '../../../types/product';
 import { ObjectId } from 'mongodb';
+import type { Filter } from 'mongodb';
 
 // GET products for a seller (by seller id)
 export async function GET(
@@ -18,10 +19,10 @@ export async function GET(
     }
 
     const db = await getDatabase();
-    const sellerObjectId = new ObjectId(sellerId);
+    const filter: Filter<Product> = { sellerId: new ObjectId(sellerId) };
     const products = await db
       .collection<Product>('products')
-      .find({ sellerId: sellerObjectId })
+      .find(filter)
       .sort({ createdAt: -1 })
       .toArray();
 
