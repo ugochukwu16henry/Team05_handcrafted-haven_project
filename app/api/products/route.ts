@@ -1,6 +1,7 @@
 // GET all products, POST new products
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "../lib/mongodb";
+import { ObjectId } from "mongodb";
 import { productSchema } from "../validation/product";
 
 export async function POST(request: NextRequest) {
@@ -54,12 +55,29 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const client = await clientPromise;
     const db = client.db("wdd430");
 
-    const products = await db.collection("products").find({}).toArray();
+    // Get optional sellerId query parameter
+    const { searchParams } = new URL(request.url);
+    const sellerId = searchParams.get('sellerId');
+
+    // Build filter query
+    let filter = {};
+    if (sellerId) {
+      // Validate and convert to ObjectId if sellerId is provided
+      if (!ObjectId.isValid(sellerId)) {
+        return NextResponse.json(
+          { error: 'Invalid seller ID format' },
+          { status: 400 }
+        );
+      }
+      filter = { sellerId: new ObjectId(sellerId) };
+    }
+
+    const products = await db.collection("products").find(filter).toArray();
     if (!products || products.length === 0) {
       return NextResponse.json(
         { success: true, message: "No products yet", products: [] },
