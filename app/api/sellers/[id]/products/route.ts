@@ -20,7 +20,7 @@ export async function GET(
     const db = await getDatabase();
     const products = await db
       .collection<Product>('products')
-      .find({ sellerId })
+      .find({ sellerId: new ObjectId(sellerId) })
       .sort({ createdAt: -1 })
       .toArray();
 
