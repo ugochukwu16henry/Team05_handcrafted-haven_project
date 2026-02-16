@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import ProductCard from '@/components/ProductCard';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/ProductCard";
 
 interface Product {
   _id: string;
@@ -18,7 +18,7 @@ interface Product {
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sellerSearch, setSellerSearch] = useState('');
+  const [sellerSearch, setSellerSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -27,8 +27,7 @@ export default function Home() {
 
   useEffect(() => {
     if (sellerSearch) {
-      // Filter products by seller name (artistName)
-      const filtered = products.filter(product =>
+      const filtered = products.filter((product) =>
         product.artistName.toLowerCase().includes(sellerSearch.toLowerCase())
       );
       setFilteredProducts(filtered);
@@ -39,80 +38,88 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/products');
+      const response = await fetch("/api/products");
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
-        setFilteredProducts(data);
+        setProducts(data?.products ?? []);
+        setFilteredProducts(data?.products ?? []);
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main>
+    <main className="bg-white">
       {/* Hero Section */}
-      <section className="bg-accent-header text-text-background py-20 md:py-32">
-        <div className="container-fluid text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text-background">
-            Discover Unique Handcrafted Treasures
-          </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Connect with talented artisans and find one-of-a-kind pieces that tell a story. 
-            Every item is crafted with passion and care.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/products"
-              className="bg-border-accent text-text-primary px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-lg"
-            >
-              Browse Products
-            </Link>
-            <Link 
-              href="/login"
-              className="bg-transparent border-2 border-text-background text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:bg-text-background hover:text-accent-header transition"
-            >
-              Sign In
-            </Link>
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white overflow-hidden py-20 md:py-32">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 opacity-20 rounded-full -mr-48 -mt-48"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 opacity-10 rounded-full -ml-48 -mb-48"></div>
+
+        <div className="container-fluid relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              Discover Artisan Treasures
+            </h1>
+            <p className="text-xl md:text-2xl text-blue-100 mb-10 leading-relaxed">
+              Connect with talented creators worldwide. Every handcrafted item has a story to tell.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/products"
+                className="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
+              >
+                Browse Products
+              </Link>
+              <Link
+                href="/sellers/become"
+                className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-all border-2 border-white"
+              >
+                Become a Seller
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-16 md:py-24 bg-bg-secondary">
+      {/* Featured Products */}
+      <section className="py-20 md:py-28 bg-gray-50">
         <div className="container-fluid">
-          <div className="mb-8 page-header">
-            <h2 className="mb-4 text-center md:text-left">Featured Products</h2>
-            <p className="text-text-secondary mb-6 text-center md:text-left">
-              Discover unique, handcrafted items from talented artisans around the world.
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Featured Products
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore handcrafted items from talented artisans across the globe
             </p>
-            
-            {/* Seller Search */}
-            <div className="mb-6 max-w-md mx-auto md:mx-0">
-              <label htmlFor="sellerSearch" className="block text-sm font-semibold mb-2 text-accent-header">
-                Search by Seller Name
-              </label>
-              <input
-                type="text"
-                id="sellerSearch"
-                value={sellerSearch}
-                onChange={(e) => setSellerSearch(e.target.value)}
-                placeholder="Enter seller name..."
-                className="w-full px-4 py-3 border-2 border-border-color rounded-lg focus:outline-none focus:border-accent-header transition bg-bg-primary"
-              />
-            </div>
           </div>
 
+          {/* Search */}
+          <div className="max-w-md mx-auto mb-12">
+            <input
+              type="search"
+              id="seller-search"
+              value={sellerSearch}
+              onChange={(e) => setSellerSearch(e.target.value)}
+              placeholder="Search by seller name..."
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Products Grid */}
           {loading ? (
-            <div className="text-center py-12">
-              <p className="text-text-secondary">Loading products...</p>
+            <div className="text-center py-16">
+              <div className="inline-block">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+              </div>
+              <p className="text-gray-600 mt-4">Loading products...</p>
             </div>
           ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.slice(0, 6).map((product) => (
                 <ProductCard
                   key={product._id}
@@ -127,29 +134,28 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-text-secondary mb-4">
-                {sellerSearch ? 'No products found for this seller.' : 'No products available yet.'}
+            <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+              <p className="text-gray-600 text-lg mb-6">
+                {sellerSearch ? "No products found for this seller" : "No products available yet"}
               </p>
               {sellerSearch && (
                 <button
-                  onClick={() => setSellerSearch('')}
-                  className="text-accent-header font-semibold interactive hover:underline py-2 px-2 min-h-[44px] inline-flex items-center"
-                  aria-label="Clear seller search"
+                  onClick={() => setSellerSearch("")}
+                  className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
                 >
-                  Clear search
+                  Clear Search
                 </button>
               )}
             </div>
           )}
 
           {filteredProducts.length > 0 && (
-            <div className="text-center mt-8">
+            <div className="text-center mt-12">
               <Link
                 href="/products"
-                className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md inline-block"
+                className="inline-block px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
               >
-                View All Products
+                View All Products →
               </Link>
             </div>
           )}
@@ -157,37 +163,48 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24 bg-bg-secondary">
+      <section className="py-20 md:py-28 bg-white">
         <div className="container-fluid">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Why Choose Handcrafted Haven?</h2>
-            <p className="text-text-secondary max-w-2xl mx-auto">
-              We bring together a community of passionate creators and conscious consumers
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Why Choose Haven?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              We connect artisans with art lovers for authentic, meaningful purchases
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Unique Creations</h3>
-              <p className="text-text-secondary">
-                Every piece is handcrafted with care, making each item truly one-of-a-kind
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Feature 1 */}
+            <div className="text-center p-8 rounded-xl bg-blue-50 border border-blue-100 hover:border-blue-300 transition">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                ✨
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Unique Pieces</h3>
+              <p className="text-gray-600">
+                Handcrafted by skilled artisans. Each item is one-of-a-kind with its own character.
               </p>
             </div>
-            
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">👥</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Support Artisans</h3>
-              <p className="text-text-secondary">
-                Connect directly with creators and support their craft and livelihood
+
+            {/* Feature 2 */}
+            <div className="text-center p-8 rounded-xl bg-purple-50 border border-purple-100 hover:border-purple-300 transition">
+              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                👥
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Direct Connection</h3>
+              <p className="text-gray-600">
+                Support creators directly. Know the story behind every piece you purchase.
               </p>
             </div>
-            
-            <div className="card text-center interactive hover:shadow-xl transition">
-              <div className="text-5xl mb-4">🌍</div>
-              <h3 className="text-xl font-semibold mb-3 text-accent-header">Sustainable Choice</h3>
-              <p className="text-text-secondary">
-                Choose quality over quantity and contribute to sustainable consumption
+
+            {/* Feature 3 */}
+            <div className="text-center p-8 rounded-xl bg-green-50 border border-green-100 hover:border-green-300 transition">
+              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
+                🌱
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Sustainable</h3>
+              <p className="text-gray-600">
+                Quality over quantity. Support sustainable consumption and ethical production.
               </p>
             </div>
           </div>
@@ -195,26 +212,27 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-bg-primary">
+      <section className="py-20 md:py-28 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container-fluid text-center">
-          <h2 className="mb-4">Ready to Start Your Journey?</h2>
-          <p className="text-text-secondary mb-8 max-w-2xl mx-auto">
-            Join our community of artisans and art lovers. Whether you're looking to buy or sell, 
-            Handcrafted Haven is your destination.
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Explore or Create?
+          </h2>
+          <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
+            Join thousands of art lovers and creators on Haven
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/sellers/become"
-              className="bg-accent-header text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
+            <Link
+              href="/login"
+              className="px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition"
             >
-              Become a Seller
+              Sign In
             </Link>
-            <Link 
-              href="/products"
-              className="bg-border-accent text-text-background px-8 py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
+            <Link
+              href="/signup"
+              className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition border-2 border-white"
             >
-              Explore Products
+              Get Started
             </Link>
           </div>
         </div>

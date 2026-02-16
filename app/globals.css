@@ -3,30 +3,32 @@
 @tailwind utilities;
 
 :root {
-  /* Project Colors - WCAG AA compliant contrast ratios */
-  --text-primary: #0A0908; /* Contrast ratio: 16.5:1 on white */
-  --text-background: #F2F4F3; /* Light background */
-  --accent-header: #22333B; /* Contrast ratio: 12.6:1 on light bg */
-  --border-accent: #A9927D; /* Accent color */
-  --border-accent-dark: #5E503F; /* Darker accent */
-
-  /* Additional System Colors */
+  /* Modern Professional Color Palette */
+  --primary: #3B82F6;
+  --primary-dark: #1E40AF;
+  --primary-light: #DBEAFE;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
   --bg-primary: #FFFFFF;
   --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
   --border-color: #E5E7EB;
-  --text-secondary: #6B7280; /* Contrast ratio: 4.5:1 on white (AA) */
-  --success: #10B981; /* Contrast ratio: 3.1:1 on white (AA for large text) */
-  --pending: #F59E0B; /* Contrast ratio: 2.9:1 on white (AA for large text) */
-  --error: #DC2626; /* Error color - Contrast ratio: 5.1:1 on white (AA) */
+  --border-dark: #D1D5DB;
+  --success: #10B981;
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --accent: #8B5CF6;
 
-  /* Spacing System (8px base) */
+  /* Spacing System */
   --space-xs: 4px;
   --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 40px;
-  --space-3xl: 48px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+  --space-4xl: 48px;
 }
 
 * {
