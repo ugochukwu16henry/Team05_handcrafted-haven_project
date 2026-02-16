@@ -30,6 +30,8 @@ export async function POST(request: NextRequest) {
       artistName: data.artistName,
       ...(data.category ? { category: data.category } : {}),
       ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
+      ...(data.country ? { country: data.country } : {}),
+      ...(data.size ? { size: data.size } : {}),
       createdAt: new Date(),
       updatedAt: new Date(),
     };

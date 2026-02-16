@@ -19,6 +19,8 @@ export default function DashboardProductsPage() {
     artistName: '',
     category: '',
     imageUrl: '',
+    country: '',
+    size: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -138,6 +140,8 @@ export default function DashboardProductsPage() {
           artistName: formData.artistName.trim(),
           category: formData.category?.trim() || '',
           imageUrl: formData.imageUrl?.trim() || '',
+          country: formData.country?.trim() || '',
+          size: formData.size?.trim() || '',
           sellerId: sellerId.trim(),
         }),
       });
@@ -156,6 +160,8 @@ export default function DashboardProductsPage() {
         artistName: '',
         category: '',
         imageUrl: '',
+        country: '',
+        size: '',
       });
       clearImage();
       fetchSellerProducts(sellerId);
@@ -369,6 +375,37 @@ export default function DashboardProductsPage() {
                     className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
                     required
                   />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="country" className="block text-sm font-semibold mb-2 text-accent-header">
+                      Country
+                    </label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      value={formData.country}
+                      onChange={handleChange}
+                      placeholder="e.g. United States"
+                      className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="size" className="block text-sm font-semibold mb-2 text-accent-header">
+                      Size
+                    </label>
+                    <input
+                      type="text"
+                      id="size"
+                      name="size"
+                      value={formData.size}
+                      onChange={handleChange}
+                      placeholder="e.g. 12 x 8 in, Medium"
+                      className="w-full px-4 py-3 border border-border-color rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-header/50 focus:border-accent-header transition-all bg-bg-primary dark:bg-[#2a2a2a] dark:border-gray-700"
+                    />
+                  </div>
                 </div>
 
                 <div>

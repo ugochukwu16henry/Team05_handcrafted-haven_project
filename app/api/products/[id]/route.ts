@@ -31,19 +31,37 @@ export async function GET(request: NextRequest, { params }: PageProps) {
 
     if (!product) {
       return Response.json(
-        {
-          success: false,
-          message: "No product found",
-        },
-        { status: 400 },
+        { success: false, message: "No product found" },
+        { status: 404 },
       );
     }
 
+    const productJson = {
+      ...product,
+      _id: (product as { _id?: { toString: () => string } })._id?.toString?.() ?? product._id,
+      sellerId: typeof product.sellerId === "string" ? product.sellerId : (product as { sellerId?: { toString: () => string } }).sellerId?.toString?.() ?? product.sellerId,
+      createdAt: (product as { createdAt?: Date }).createdAt?.toISOString?.() ?? (product as { createdAt?: string }).createdAt,
+      updatedAt: (product as { updatedAt?: Date }).updatedAt?.toISOString?.() ?? (product as { updatedAt?: string }).updatedAt,
+    };
+
+    let owner = null;
+    const sid = product.sellerId;
+    if (sid) {
+      const sellerIdObj = typeof sid === "string" ? new ObjectId(sid) : sid;
+      const seller = await db.collection("sellers").findOne({ _id: sellerIdObj });
+      if (seller) {
+        owner = {
+          _id: (seller as { _id?: { toString: () => string } })._id?.toString?.(),
+          name: (seller as { name?: string }).name,
+          email: (seller as { email?: string }).email,
+          businessName: (seller as { businessName?: string }).businessName,
+          location: (seller as { location?: string }).location,
+        };
+      }
+    }
+
     return Response.json(
-      {
-        success: true,
-        product: product,
-      },
+      { success: true, product: productJson, owner },
       { status: 200 },
     );
   } catch (error) {

@@ -9,6 +9,8 @@ export interface Product {
   artistName: string;
   category?: string;
   imageUrl?: string;
+  country?: string;
+  size?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

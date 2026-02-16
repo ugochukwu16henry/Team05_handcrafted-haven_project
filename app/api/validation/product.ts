@@ -11,6 +11,8 @@ export const productSchema = z.object({
   artistName: z.string().min(1, "Artist/Seller name is required").trim(),
   category: z.string().trim().optional().default(""),
   imageUrl: z.string().trim().optional().default(""),
+  country: z.string().trim().optional().default(""),
+  size: z.string().trim().optional().default(""),
 });
 
 export const mongoIdValidation = z.object({
