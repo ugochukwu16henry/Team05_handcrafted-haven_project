@@ -7,34 +7,34 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header className="sticky top-0 z-50 bg-bg-primary border-b border-border-color shadow-sm">
       <nav className="container-fluid">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-accent-header rounded-lg flex items-center justify-center text-text-background font-bold">
               H
             </div>
-            <span className="text-gray-900">Haven</span>
+            <span className="text-accent-header">Haven</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/products"
-              className="text-gray-600 hover:text-blue-600 font-medium transition"
+              className="text-text-secondary hover:text-accent-header font-medium transition"
             >
               Browse
             </Link>
             <Link
               href="/sellers"
-              className="text-gray-600 hover:text-blue-600 font-medium transition"
+              className="text-text-secondary hover:text-accent-header font-medium transition"
             >
               Sellers
             </Link>
             <Link
               href="/sellers/become"
-              className="text-gray-600 hover:text-blue-600 font-medium transition"
+              className="text-text-secondary hover:text-accent-header font-medium transition"
             >
               Become a Seller
             </Link>
@@ -44,13 +44,13 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 text-blue-600 font-medium hover:text-blue-700 transition"
+              className="px-4 py-2 text-accent-header font-medium hover:opacity-80 transition"
             >
               Sign In
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-accent-header text-text-background rounded-lg font-medium hover:opacity-90 transition"
             >
               Sign Up
             </Link>
@@ -59,7 +59,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-accent-header"
             aria-label="Toggle menu"
           >
             <svg
@@ -84,35 +84,35 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 px-4 space-y-3">
+          <div className="md:hidden border-t border-border-color py-4 px-4 space-y-3">
             <Link
               href="/products"
-              className="block text-gray-600 hover:text-blue-600 font-medium"
+              className="block text-text-secondary hover:text-accent-header font-medium"
             >
               Browse
             </Link>
             <Link
               href="/sellers"
-              className="block text-gray-600 hover:text-blue-600 font-medium"
+              className="block text-text-secondary hover:text-accent-header font-medium"
             >
               Sellers
             </Link>
             <Link
               href="/sellers/become"
-              className="block text-gray-600 hover:text-blue-600 font-medium"
+              className="block text-text-secondary hover:text-accent-header font-medium"
             >
               Become a Seller
             </Link>
-            <hr />
+            <hr className="border-border-color" />
             <Link
               href="/login"
-              className="block text-blue-600 font-medium"
+              className="block text-accent-header font-medium"
             >
               Sign In
             </Link>
             <Link
               href="/signup"
-              className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg font-medium"
+              className="block w-full text-center px-4 py-2 bg-accent-header text-text-background rounded-lg font-medium"
             >
               Sign Up
             </Link>
