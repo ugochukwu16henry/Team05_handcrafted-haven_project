@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useCart } from '@/context/CartContext';
 
 interface Owner {
   _id?: string;
@@ -34,6 +35,8 @@ export default function ProductDetailPage() {
   const [owner, setOwner] = useState<Owner | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [added, setAdded] = useState(false);
+  const { addItem } = useCart();
 
   useEffect(() => {
     if (!id) {
@@ -193,10 +196,27 @@ export default function ProductDetailPage() {
 
             <button
               type="button"
+              onClick={() => {
+                addItem({
+                  productId: product._id,
+                  title: product.title,
+                  price: product.price,
+                  imageUrl: product.imageUrl,
+                });
+                setAdded(true);
+              }}
               className="w-full bg-accent-header text-text-background py-4 rounded-lg font-semibold interactive hover:opacity-90 transition shadow-md"
             >
-              Add to cart
+              {added ? 'Added to cart ✓' : 'Add to cart'}
             </button>
+            {added && (
+              <Link
+                href="/cart"
+                className="mt-3 w-full block text-center py-3 border-2 border-accent-header text-accent-header rounded-lg font-medium hover:bg-accent-header/10 transition"
+              >
+                View cart
+              </Link>
+            )}
           </div>
         </div>
       </div>

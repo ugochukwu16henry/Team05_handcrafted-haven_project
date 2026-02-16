@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
+import { useState } from "react";
 
 interface ProductCardProps {
   id: string;
@@ -19,9 +23,12 @@ export default function ProductCard({
   artistName,
   category,
 }: ProductCardProps) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
   return (
-    <Link href={`/products/${id}`}>
-      <div className="bg-bg-primary rounded-xl border border-border-color overflow-hidden hover:shadow-lg hover:border-border-accent transition-all duration-300 h-full flex flex-col group">
+    <div className="bg-bg-primary rounded-xl border border-border-color overflow-hidden hover:shadow-lg hover:border-border-accent transition-all duration-300 h-full flex flex-col group">
+      <Link href={`/products/${id}`} className="block flex-1 flex flex-col">
         {/* Image Container */}
         <div className="relative h-64 bg-bg-secondary overflow-hidden">
           {imageUrl ? (
@@ -36,7 +43,6 @@ export default function ProductCard({
             </div>
           )}
 
-          {/* Category Badge */}
           {category && (
             <span className="absolute top-3 right-3 bg-accent-header text-text-background px-3 py-1 rounded-full text-xs font-semibold">
               {category}
@@ -44,36 +50,46 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Content */}
         <div className="p-5 flex-1 flex flex-col">
-          {/* Title */}
           <h3 className="text-lg font-bold text-accent-header mb-2 line-clamp-2">
             {title}
           </h3>
 
-          {/* Description */}
           <p className="text-sm text-text-secondary mb-4 line-clamp-2 flex-1">
             {description}
           </p>
 
-          {/* Artist */}
           <p className="text-xs text-text-secondary mb-3">
             by <span className="font-medium text-text-primary">{artistName}</span>
           </p>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-border-color">
-            <div>
-              <p className="text-2xl font-bold text-accent-header">
-                ${price.toFixed(2)}
-              </p>
-            </div>
-            <button className="px-4 py-2 bg-accent-header text-text-background rounded-lg font-medium text-sm hover:opacity-90 transition-colors">
-              View
-            </button>
+          <div className="pt-4 border-t border-border-color">
+            <p className="text-2xl font-bold text-accent-header">
+              ${price.toFixed(2)}
+            </p>
           </div>
         </div>
+      </Link>
+
+      <div className="p-5 pt-0 flex gap-2">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            addItem({ productId: id, title, price, imageUrl });
+            setAdded(true);
+          }}
+          className="flex-1 px-4 py-2 bg-accent-header text-text-background rounded-lg font-medium text-sm hover:opacity-90 transition-colors"
+        >
+          {added ? "Added ✓" : "Add to cart"}
+        </button>
+        <Link
+          href={`/products/${id}`}
+          className="px-4 py-2 border border-accent-header text-accent-header rounded-lg font-medium text-sm hover:bg-accent-header/10 transition-colors inline-flex items-center"
+        >
+          View
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 }

@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 bg-bg-primary border-b border-border-color shadow-sm">
@@ -40,8 +42,22 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Cart & Auth */}
           <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/cart"
+              className="relative p-2 text-accent-header hover:opacity-80 transition"
+              aria-label={`Cart, ${itemCount} items`}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {itemCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[1.25rem] h-5 px-1 flex items-center justify-center bg-accent-header text-text-background text-xs font-bold rounded-full">
+                  {itemCount > 99 ? '99+' : itemCount}
+                </span>
+              )}
+            </Link>
             <Link
               href="/login"
               className="px-4 py-2 text-accent-header font-medium hover:opacity-80 transition"
@@ -109,6 +125,12 @@ export default function Header() {
               className="block text-accent-header font-medium"
             >
               Sign In
+            </Link>
+            <Link
+              href="/cart"
+              className="flex items-center gap-2 text-accent-header font-medium"
+            >
+              Cart {itemCount > 0 && `(${itemCount})`}
             </Link>
             <Link
               href="/signup"
